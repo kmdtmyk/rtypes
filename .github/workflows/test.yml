@@ -33,7 +33,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-          bundler-cache: true
+          bundler-cache: false
         env:
           RAILS_VERSION: ${{ matrix.rails }}
       # Add or replace test runners here
