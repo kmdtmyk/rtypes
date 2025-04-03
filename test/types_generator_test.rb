@@ -2,6 +2,10 @@ require "test_helper"
 
 class TypesGeneratorTest < ActiveSupport::TestCase
 
+  def setup
+    TypesGenerator.instance_variable_set(:@config, nil)
+  end
+
   test "it has a version number" do
     assert TypesGenerator::VERSION
   end
@@ -9,6 +13,13 @@ class TypesGeneratorTest < ActiveSupport::TestCase
   test 'file_name' do
     types_generator = TypesGenerator.new('User')
     assert_equal types_generator.file_name, 'User.ts'
+  end
+
+  test 'file_path' do
+    types_generator = TypesGenerator.new('User')
+    assert_equal types_generator.file_path, '/app/test/dummy/app/javascript/types/User.ts'
+    TypesGenerator.config.path = 'app/frontend/entrypoints/types'
+    assert_equal types_generator.file_path, '/app/test/dummy/app/frontend/entrypoints/types/User.ts'
   end
 
   test 'file_content has_many' do
@@ -44,8 +55,8 @@ class TypesGeneratorTest < ActiveSupport::TestCase
 
   test 'config' do
     assert_equal TypesGenerator.config.path, 'app/javascript/types'
-    TypesGenerator.config.path = 'app/frontend/entrypoints'
-    assert_equal TypesGenerator.config.path, 'app/frontend/entrypoints'
+    TypesGenerator.config.path = 'app/frontend/entrypoints/types'
+    assert_equal TypesGenerator.config.path, 'app/frontend/entrypoints/types'
   end
 
 end

@@ -11,6 +11,10 @@ class TypesGenerator
     "#{@name}.ts"
   end
 
+  def file_path
+    Rails.root.join(TypesGenerator.config.path, file_name).to_s
+  end
+
   def file_content
     model = @name.constantize
     serializer = "#{@name}Serializer".constantize
