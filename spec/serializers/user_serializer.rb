@@ -7,4 +7,6 @@ class UserSerializer < ActiveModel::Serializer
     :name,
   )
 
+  has_many :posts
+
 end

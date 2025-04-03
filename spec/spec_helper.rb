@@ -38,3 +38,10 @@ ActiveRecord::Base.establish_connection(
 ActiveRecord::Base.connection.create_table :users do |t|
   t.string :name
 end
+
+ActiveRecord::Base.connection.create_table :posts do |t|
+  t.string :datetime
+  t.string :title
+  t.string :body
+  t.references :user
+end
