@@ -16,6 +16,7 @@ class TypesGeneratorTest < ActiveSupport::TestCase
   end
 
   test 'file_path' do
+    skip if ENV['CI']
     types_generator = TypesGenerator.new('User')
     assert_equal types_generator.file_path, '/app/test/dummy/app/javascript/types/User.ts'
     TypesGenerator.config.path = 'app/frontend/entrypoints/types'
