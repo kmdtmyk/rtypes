@@ -1,8 +1,12 @@
 namespace :types_generator do
 
-  desc 'test'
-  task :task1 do
-    puts 'test task'
+  desc 'Add configuration file'
+  task :install do
+    FileUtils.cp(
+      File.expand_path('../templates/types_generator.rb', __FILE__),
+      Rails.root.join('config/initializers'),
+      verbose: true
+    )
   end
 
 end
