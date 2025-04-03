@@ -9,4 +9,11 @@ namespace :types_generator do
     )
   end
 
+  desc 'Generate typescript definition file'
+  task :generate, [:name] => :environment do |task, args|
+    types_generator = TypesGenerator.new(args[:name])
+    types_generator.generate
+    puts types_generator.file_path
+  end
+
 end

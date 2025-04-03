@@ -7,6 +7,11 @@ class TypesGenerator
     @name = name
   end
 
+  def generate
+    FileUtils.mkdir_p(File.dirname(file_path))
+    File.new(file_path, 'w').puts(file_content)
+  end
+
   def file_name
     "#{@name}.ts"
   end
