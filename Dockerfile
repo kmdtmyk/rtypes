@@ -1,5 +1,11 @@
 FROM ruby:3.0.3-alpine3.13
 
+RUN apk update && \
+    apk add \
+    build-base \
+    sudo \
+    git
+
 ARG UID=1000
 ARG GID=1000
 
