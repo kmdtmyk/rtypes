@@ -21,6 +21,8 @@ jobs:
         ruby:
           - 3.1.7
           - 3.0.3
+        rails: 
+          - 7.1
 
     steps:
       - name: Checkout code
@@ -34,3 +36,5 @@ jobs:
       # Add or replace test runners here
       - name: Run tests
         run: bin/test
+        env:
+          BUNDLE_GEMFILE: gemfiles/${{ matrix.rails }}.gemfile
