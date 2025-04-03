@@ -50,4 +50,14 @@ RSpec.describe TypesGenerator do
 
   end
 
+  describe 'config' do
+
+    example 'change configure' do
+      expect(TypesGenerator.config.path).to eq 'app/javascript/types'
+      TypesGenerator.config.path = 'app/frontend/entrypoints'
+      expect(TypesGenerator.config.path).to eq 'app/frontend/entrypoints'
+    end
+
+  end
+
 end

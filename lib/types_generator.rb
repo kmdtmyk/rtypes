@@ -65,4 +65,14 @@ class TypesGenerator
     (imports + result).join("\n")
   end
 
+  class << self
+
+    def config
+      @config ||= Struct.new(:path, keyword_init: true).new(
+        path: 'app/javascript/types',
+      )
+    end
+
+  end
+
 end
