@@ -34,7 +34,7 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
         env:
-          BUNDLE_GEMFILE: gemfiles/${{ matrix.rails }}.gemfile
+          RAILS_VERSION: ${{ matrix.rails }}
       # Add or replace test runners here
       - name: Run tests
         run: bin/test
