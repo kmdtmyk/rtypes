@@ -46,7 +46,7 @@ class TypesGenerator
     other_classes = []
 
     serializer._reflections.each do |name, reflection|
-      class_name = model._reflections[name.to_s].class_name
+      class_name = model._reflections.with_indifferent_access[name].class_name
       other_classes << class_name
       if reflection.class == ActiveModel::Serializer::BelongsToReflection
         result << "  #{name.to_s.camelize(:lower)}?: #{class_name}"
