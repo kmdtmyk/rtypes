@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class Post < ActiveRecord::Base
+class Post < ApplicationRecord
   belongs_to :user
 end

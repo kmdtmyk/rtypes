@@ -1,15 +1,9 @@
-# frozen_string_literal: true
+class TypesGenerator
+  class Railtie < ::Rails::Railtie
 
-if defined? Rails
-
-  class TypesGenerator
-    class Railtie < ::Rails::Railtie
-
-      rake_tasks do
-        load 'tasks/types_generator_tasks.rake'
-      end
-
+    rake_tasks do
+      load 'tasks/types_generator_tasks.rake'
     end
-  end
 
+  end
 end

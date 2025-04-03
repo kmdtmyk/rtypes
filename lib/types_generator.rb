@@ -1,11 +1,7 @@
-# frozen_string_literal: true
-
-require_relative "types_generator/railtie"
-require_relative "types_generator/version"
+require "types_generator/version"
+require "types_generator/railtie"
 
 class TypesGenerator
-  class Error < StandardError; end
-  # Your code goes here...
 
   def initialize(name)
     @name = name
