@@ -18,7 +18,11 @@ end
 require "active_record"
 require "active_model_serializers"
 
-Dir.glob(File.expand_path('../**/*.rb', __FILE__)) do |file|
+Dir.glob(File.expand_path('../models/*.rb', __FILE__)) do |file|
+  require file
+end
+
+Dir.glob(File.expand_path('../serializers/*.rb', __FILE__)) do |file|
   require file
 end
 
