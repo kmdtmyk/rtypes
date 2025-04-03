@@ -4,9 +4,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 # Specify your gem's dependencies in types_generator.gemspec.
 gemspec
 
-gem 'rails'
+gem 'puma'
 gem 'active_model_serializers'
-
 
 
 # Start debugger with binding.b [https://github.com/ruby/debug]
