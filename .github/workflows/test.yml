@@ -38,4 +38,5 @@ jobs:
       # Add or replace test runners here
       - name: Run tests
         run: bin/test
-
+        env:
+          BUNDLE_GEMFILE: gemfiles/${{ matrix.rails }}.gemfile
