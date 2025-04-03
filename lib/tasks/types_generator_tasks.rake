@@ -1,4 +1,4 @@
-namespace :types_generator
+namespace :types_generator do
 
   desc 'test'
   task :task1 do
