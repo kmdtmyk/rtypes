@@ -32,6 +32,10 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
+  spec.add_development_dependency 'sqlite3'
+  spec.add_development_dependency 'activerecord'
+  spec.add_development_dependency 'active_model_serializers'
+
   # Uncomment to register a new dependency of your gem
   # spec.add_dependency "example-gem", "~> 1.0"
 

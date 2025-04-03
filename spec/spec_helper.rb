@@ -13,3 +13,24 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 end
+
+
+require "active_record"
+require "active_model_serializers"
+
+Dir.glob(File.expand_path('../**/*.rb', __FILE__)) do |file|
+  require file
+end
+
+require 'fileutils'
+
+FileUtils.rm('tmp/database.sqlite3', force: true)
+
+ActiveRecord::Base.establish_connection(
+  adapter: 'sqlite3',
+  database: 'tmp/database.sqlite3',
+)
+
+ActiveRecord::Base.connection.create_table :users do |t|
+  t.string :name
+end
