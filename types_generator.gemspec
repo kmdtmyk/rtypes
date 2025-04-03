@@ -22,7 +22,11 @@ Gem::Specification.new do |spec|
     Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
   end
 
-  spec.add_dependency "rails", ENV['RAILS_VERSION']
+  if ENV['RAILS_VERSION']
+    spec.add_dependency "rails", "~> #{ENV['RAILS_VERSION']}"
+  else
+    spec.add_dependency "rails"
+  end
 
   spec.add_development_dependency 'sqlite3', '~> 1.4'
 
