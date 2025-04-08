@@ -11,9 +11,21 @@ namespace :types_generator do
 
   desc 'Generate typescript definition file'
   task :generate, [:name] => :environment do |task, args|
-    types_generator = TypesGenerator.new(args[:name])
-    types_generator.generate
-    puts types_generator.file_path
+
+    types_generators = if args[:name].present?
+      [TypesGenerator.new(args[:name])]
+    else
+      models = ActiveRecord::Base.connection.tables.map{ _1.classify.safe_constantize }.compact
+      models
+        .filter{ "#{_1.name}Serializer".safe_constantize.present? }
+        .map{ TypesGenerator.new(_1.name) }
+    end
+
+    types_generators.each do |types_generator|
+      types_generator.generate
+      puts types_generator.file_path
+    end
+
   end
 
 end
