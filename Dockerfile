@@ -6,7 +6,8 @@ RUN apk update && \
     sqlite-dev \
     tzdata \
     sudo \
-    git
+    git \
+    less
 
 ARG UID=1000
 ARG GID=1000
