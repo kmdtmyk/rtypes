@@ -1,13 +1,13 @@
-require_relative "lib/types_generator/version"
+require_relative "lib/rtypes/version"
 
 Gem::Specification.new do |spec|
-  spec.name        = "types_generator"
-  spec.version     = TypesGenerator::VERSION
+  spec.name        = "rtypes"
+  spec.version     = Rtypes::VERSION
   spec.authors     = [""]
   spec.email       = [""]
-  spec.homepage    = "https://github.com/kmdtmyk/types_generator"
-  spec.summary     = "Summary of TypesGenerator."
-  # spec.description = "TODO: Description of TypesGenerator."
+  spec.homepage    = "https://github.com/kmdtmyk/rtypes"
+  spec.summary     = "Summary of Rtypes."
+  # spec.description = "TODO: Description of Rtypes."
   spec.license     = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the "allowed_push_host"

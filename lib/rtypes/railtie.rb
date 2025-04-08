@@ -1,8 +1,8 @@
-class TypesGenerator
+class Rtypes
   class Railtie < ::Rails::Railtie
 
     rake_tasks do
-      load 'tasks/types_generator_tasks.rake'
+      load 'tasks/rtypes_tasks.rake'
     end
 
   end

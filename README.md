@@ -1,4 +1,4 @@
-# TypesGenerator
+# Rtypes
 Short description and motivation.
 
 ## Usage
@@ -8,7 +8,7 @@ How to use my plugin.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem "types_generator"
+gem "rtypes"
 ```
 
 And then execute:
@@ -18,7 +18,7 @@ $ bundle
 
 Or install it yourself as:
 ```bash
-$ gem install types_generator
+$ gem install rtypes
 ```
 
 ## Contributing

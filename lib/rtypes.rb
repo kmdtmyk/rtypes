@@ -1,7 +1,7 @@
-require "types_generator/version"
-require "types_generator/railtie"
+require "rtypes/version"
+require "rtypes/railtie"
 
-class TypesGenerator
+class Rtypes
 
   def initialize(name)
     @name = name
@@ -17,7 +17,7 @@ class TypesGenerator
   end
 
   def file_path
-    Rails.root.join(TypesGenerator.config.path, file_name).to_s
+    Rails.root.join(Rtypes.config.path, file_name).to_s
   end
 
   def file_content
