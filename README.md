@@ -2,7 +2,30 @@
 Short description and motivation.
 
 ## Usage
-How to use my plugin.
+
+```bash
+rails rtypes:generate
+```
+
+```ruby
+class UserSerializer < ActiveModel::Serialier
+  attributes(
+    :id,
+    :name,
+  )
+end
+```
+
+↓
+
+```ts
+type User = {
+  id: number | null
+  name: string
+}
+
+export default User
+```
 
 ## Installation
 Add this line to your application's Gemfile:
