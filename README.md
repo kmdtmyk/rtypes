@@ -31,17 +31,12 @@ export default User
 Add this line to your application's Gemfile:
 
 ```ruby
-gem "rtypes"
+gem 'rparam', git: 'https://github.com/kmdtmyk/rparam', ref: '<commit_hash>'
 ```
 
 And then execute:
 ```bash
-$ bundle
-```
-
-Or install it yourself as:
-```bash
-$ gem install rtypes
+$ bundle install
 ```
 
 ## Contributing
