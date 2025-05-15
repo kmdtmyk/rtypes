@@ -31,7 +31,7 @@ export default User
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'rparam', git: 'https://github.com/kmdtmyk/rparam', ref: '<commit_hash>'
+gem 'rtypes', git: 'https://github.com/kmdtmyk/rtypes', ref: '<commit_hash>'
 ```
 
 And then execute:
