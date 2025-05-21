@@ -4,7 +4,7 @@ services:
       context: .
     working_dir: /app
     environment:
-      RAILS_VERSION: 7.1
+      RAILS_VERSION: 6.1
     volumes:
       - .:/app
       - ./bundle:/usr/local/bundle
