@@ -31,6 +31,7 @@ class RtypesTest < ActiveSupport::TestCase
     type User = {
       id: number | null
       name: string
+      admin: boolean
       posts?: Array<Post>
     }
 

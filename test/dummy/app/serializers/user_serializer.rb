@@ -5,6 +5,7 @@ class UserSerializer < ActiveModel::Serializer
   attributes(
     :id,
     :name,
+    :admin,
   )
 
   has_many :posts

@@ -31,13 +31,15 @@ class Rtypes
       column_type = attribute.options[:typescript] || column&.type
 
       type = if name.end_with?('id')
-        "number | null"
+        'number | null'
       elsif column_type == :integer
-        "number | string"
+        'number | string'
       elsif column_type == :decimal
-        "number | string"
+        'number | string'
+      elsif column_type == :boolean
+        'boolean'
       else
-        "string"
+        'string'
       end
 
       result <<  "  #{name.to_s.camelize(:lower)}: #{type}"
