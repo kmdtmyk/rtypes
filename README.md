@@ -39,8 +39,11 @@ And then execute:
 $ bundle install
 ```
 
-## Contributing
-Contribution directions go here.
+## Test
+
+```
+docker compose run --rm app bin/test
+```
 
 ## License
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
