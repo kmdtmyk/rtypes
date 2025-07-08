@@ -9,5 +9,6 @@ class UserSerializer < ActiveModel::Serializer
   )
 
   has_many :posts
+  has_one :latest_post
 
 end

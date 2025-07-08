@@ -52,7 +52,7 @@ class Rtypes
     @serializer._reflections.each do |name, reflection|
       class_name = @model._reflections.with_indifferent_access[name].class_name
       other_classes << class_name
-      if reflection.class == ActiveModel::Serializer::BelongsToReflection
+      if reflection.class == ActiveModel::Serializer::BelongsToReflection || reflection.class == ActiveModel::Serializer::HasOneReflection
         result << "  #{name.to_s.camelize(:lower)}?: #{class_name}"
       elsif reflection.class == ActiveModel::Serializer::HasManyReflection
         result << "  #{name.to_s.camelize(:lower)}?: Array<#{class_name}>"

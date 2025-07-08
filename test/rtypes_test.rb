@@ -23,7 +23,7 @@ class RtypesTest < ActiveSupport::TestCase
     assert_equal rtypes.file_path, '/app/test/dummy/app/frontend/entrypoints/types/User.ts'
   end
 
-  test 'file_content has_many' do
+  test 'file_content has_many and has_one' do
     rtypes = Rtypes.new('User')
     assert_equal rtypes.file_content, <<~EOS
     import Post from './Post'
@@ -33,6 +33,7 @@ class RtypesTest < ActiveSupport::TestCase
       name: string
       admin: boolean
       posts?: Array<Post>
+      latestPost?: Post
     }
 
     export default User
