@@ -26,7 +26,7 @@ class Rtypes
 
   def file_content
 
-    result = ["type #{@name} = {"]
+    properties = []
 
     @serializer._attributes_data.each do |name, attribute|
       column = @model.columns.find{ _1.name == name.to_s }
@@ -44,7 +44,7 @@ class Rtypes
         'string'
       end
 
-      result <<  "  #{name.to_s.camelize(:lower)}: #{type}"
+      properties << "#{name.to_s.camelize(:lower)}: #{type}"
     end
 
     other_classes = []
@@ -53,15 +53,18 @@ class Rtypes
       class_name = @model._reflections.with_indifferent_access[name].class_name
       other_classes << class_name
       if reflection.class == ActiveModel::Serializer::BelongsToReflection || reflection.class == ActiveModel::Serializer::HasOneReflection
-        result << "  #{name.to_s.camelize(:lower)}?: #{class_name}"
+        properties << "#{name.to_s.camelize(:lower)}?: #{class_name}"
       elsif reflection.class == ActiveModel::Serializer::HasManyReflection
-        result << "  #{name.to_s.camelize(:lower)}?: Array<#{class_name}>"
+        properties << "#{name.to_s.camelize(:lower)}?: Array<#{class_name}>"
       end
     end
 
-    result << "}\n"
-    result << "export default #{@name}"
-    result << ''
+    result = [
+      "type #{@name} = {",
+      *properties.map{ |property| "  #{property}" },
+      "}\n",
+      "export default #{@name}\n"
+    ]
 
     imports = []
     if other_classes.present?
