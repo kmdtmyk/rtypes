@@ -13,6 +13,8 @@ class RtypesTest < ActiveSupport::TestCase
   test 'file_name' do
     rtypes = Rtypes.new('User')
     assert_equal rtypes.file_name, 'User.ts'
+    rtypes = Rtypes.new('user')
+    assert_equal rtypes.file_name, 'User.ts'
   end
 
   test 'file_path' do

@@ -4,7 +4,7 @@ require "rtypes/railtie"
 class Rtypes
 
   def initialize(name)
-    @name = name
+    @name = name.classify
     @model = @name.constantize
     @serializer = "#{@name}Serializer".constantize
   rescue NameError => e
