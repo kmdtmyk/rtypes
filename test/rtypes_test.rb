@@ -32,6 +32,7 @@ class RtypesTest < ActiveSupport::TestCase
       id: number | null
       name: string
       admin: boolean
+      any: any
       posts?: Array<Post>
       latestPost?: Post
     }

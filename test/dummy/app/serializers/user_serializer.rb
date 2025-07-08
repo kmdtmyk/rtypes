@@ -8,6 +8,10 @@ class UserSerializer < ActiveModel::Serializer
     :admin,
   )
 
+  attribute :any, typescript: 'any' do
+    'any value'
+  end
+
   has_many :posts
   has_one :latest_post
 

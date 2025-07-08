@@ -40,6 +40,8 @@ class Rtypes
         'number | string'
       elsif column_type == :boolean
         'boolean'
+      elsif column_type.class == String
+        column_type
       else
         'string'
       end
