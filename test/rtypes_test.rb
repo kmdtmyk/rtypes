@@ -61,4 +61,11 @@ class RtypesTest < ActiveSupport::TestCase
     assert_equal Rtypes.config.path, 'app/frontend/entrypoints/types'
   end
 
+  test 'invalid model name' do
+    error = assert_raises RuntimeError do
+      Rtypes.new('Foo')
+    end
+    assert_equal error.message, %(Error: Invalid model name "Foo")
+  end
+
 end

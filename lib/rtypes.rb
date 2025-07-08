@@ -5,6 +5,10 @@ class Rtypes
 
   def initialize(name)
     @name = name
+    @model = @name.constantize
+    @serializer = "#{@name}Serializer".constantize
+  rescue NameError => e
+    raise %(Error: Invalid model name "#{@name}")
   end
 
   def generate
@@ -21,13 +25,11 @@ class Rtypes
   end
 
   def file_content
-    model = @name.constantize
-    serializer = "#{@name}Serializer".constantize
 
     result = ["type #{@name} = {"]
 
-    serializer._attributes_data.each do |name, attribute|
-      column = model.columns.find{ _1.name == name.to_s }
+    @serializer._attributes_data.each do |name, attribute|
+      column = @model.columns.find{ _1.name == name.to_s }
       column_type = attribute.options[:typescript] || column&.type
 
       type = if name.end_with?('id')
@@ -47,8 +49,8 @@ class Rtypes
 
     other_classes = []
 
-    serializer._reflections.each do |name, reflection|
-      class_name = model._reflections.with_indifferent_access[name].class_name
+    @serializer._reflections.each do |name, reflection|
+      class_name = @model._reflections.with_indifferent_access[name].class_name
       other_classes << class_name
       if reflection.class == ActiveModel::Serializer::BelongsToReflection
         result << "  #{name.to_s.camelize(:lower)}?: #{class_name}"
