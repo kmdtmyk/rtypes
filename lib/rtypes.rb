@@ -32,16 +32,10 @@ class Rtypes
       column = @model.columns.find{ _1.name == name.to_s }
       column_type = attribute.options[:typescript] || column&.type
 
-      type = if name.end_with?('id')
-        'number | null'
-      elsif column_type == :integer
-        'number | string'
-      elsif column_type == :decimal
-        'number | string'
-      elsif column_type == :boolean
-        'boolean'
-      elsif column_type.class == String
+      type = if column_type.class == String
         column_type
+      elsif self.class.config.types.has_key?(column_type)
+        self.class.config.types[column_type]
       else
         'string'
       end
@@ -82,8 +76,13 @@ class Rtypes
   class << self
 
     def config
-      @config ||= Struct.new(:path, keyword_init: true).new(
+      @config ||= Struct.new(:path, :types, keyword_init: true).new(
         path: 'app/javascript/types',
+        types: {
+          integer: 'number',
+          decimal: 'string',
+          boolean: 'boolean',
+        },
       )
     end
 

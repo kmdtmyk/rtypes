@@ -31,7 +31,7 @@ class RtypesTest < ActiveSupport::TestCase
     import Post from './Post'
 
     type User = {
-      id: number | null
+      id: number
       name: string
       admin: boolean
       any: any
@@ -49,7 +49,7 @@ class RtypesTest < ActiveSupport::TestCase
     import User from './User'
 
     type Post = {
-      id: number | null
+      id: number
       title: string
       body: string
       user?: User
