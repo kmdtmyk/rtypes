@@ -28,34 +28,34 @@ class RtypesTest < ActiveSupport::TestCase
   test 'file_content has_many and has_one' do
     rtypes = Rtypes.new('User')
     assert_equal rtypes.file_content, <<~EOS
-    import Post from './Post'
+      import Post from './Post'
 
-    type User = {
-      id: number
-      name: string
-      admin: boolean
-      any: any
-      posts?: Array<Post>
-      latestPost?: Post
-    }
+      type User = {
+        id: number
+        name: string
+        admin: boolean
+        any: any
+        posts?: Array<Post>
+        latestPost?: Post
+      }
 
-    export default User
+      export default User
     EOS
   end
 
   test 'file_content belongs_to' do
     rtypes = Rtypes.new('Post')
     assert_equal rtypes.file_content, <<~EOS
-    import User from './User'
+      import User from './User'
 
-    type Post = {
-      id: number
-      title: string
-      body: string
-      user?: User
-    }
+      type Post = {
+        id: number
+        title: string
+        body: string
+        user?: User
+      }
 
-    export default Post
+      export default Post
     EOS
   end
 
