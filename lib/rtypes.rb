@@ -86,6 +86,21 @@ class Rtypes
       )
     end
 
+    def config_file_content
+      config.to_h.map do |name, value|
+        if value.class == Hash
+          value = [
+            '{',
+            *value.map{ "  #{_1}: '#{_2}',"},
+            '}',
+          ].join("\n")
+        else
+          value = "'#{value}'"
+        end
+        "#{Rtypes}.config.#{name} = #{value}"
+      end.join("\n")
+    end
+
   end
 
 end

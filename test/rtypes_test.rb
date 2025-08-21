@@ -65,6 +65,17 @@ class RtypesTest < ActiveSupport::TestCase
     assert_equal Rtypes.config.path, 'app/frontend/entrypoints/types'
   end
 
+  test 'config_file_content' do
+    assert_equal Rtypes.config_file_content, <<~EOS.strip
+      Rtypes.config.path = 'app/javascript/types'
+      Rtypes.config.types = {
+        integer: 'number',
+        decimal: 'string',
+        boolean: 'boolean',
+      }
+    EOS
+  end
+
   test 'invalid model name' do
     error = assert_raises RuntimeError do
       Rtypes.new('Foo')

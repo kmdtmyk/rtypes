@@ -2,11 +2,11 @@ namespace :rtypes do
 
   desc 'Add configuration file'
   task :install do
-    FileUtils.cp(
-      File.expand_path('../templates/rtypes.rb', __FILE__),
-      Rails.root.join('config/initializers'),
-      verbose: true
-    )
+    file = File.open(Rails.root.join('config/initializers/rtypes.rb'), 'w') do |f|
+      f.print Rtypes.config_file_content
+      f
+    end
+    puts file.path
   end
 
   desc 'Generate typescript definition file'
