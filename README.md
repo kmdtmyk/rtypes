@@ -20,7 +20,7 @@ end
 
 ```ts
 type User = {
-  id: number | null
+  id: number
   name: string
 }
 
