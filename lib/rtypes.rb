@@ -4,9 +4,15 @@ require "rtypes/railtie"
 class Rtypes
 
   def initialize(name)
-    @name = name.classify
-    @model = @name.constantize
-    @serializer = "#{@name}Serializer".constantize
+    if name.class == Class && name.superclass == ActiveModel::Serializer
+      @name = name.to_s.delete_suffix('Serializer')
+      @model = @name.constantize
+      @serializer = name
+    else
+      @name = name.classify
+      @model = @name.constantize
+      @serializer = "#{@name}Serializer".constantize
+    end
   rescue NameError => e
     raise %(Error: Invalid model name "#{@name}")
   end
