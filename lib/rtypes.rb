@@ -54,7 +54,11 @@ class Rtypes
 
     @serializer._reflections.each do |name, reflection|
       class_name = @model._reflections.with_indifferent_access[name].class_name
-      other_classes << class_name
+
+      other_classes << {
+        class_name: class_name,
+        serializer: find_serializer(class_name),
+      }
       if reflection.class == ActiveModel::Serializer::BelongsToReflection || reflection.class == ActiveModel::Serializer::HasOneReflection
         properties << "#{name.to_s.camelize(:lower)}?: #{class_name}"
       elsif reflection.class == ActiveModel::Serializer::HasManyReflection
@@ -69,11 +73,8 @@ class Rtypes
       "export default #{@model.name}\n"
     ]
 
-    imports = []
-    if other_classes.present?
-      other_classes.uniq.each do |class_name|
-        imports << "import #{class_name} from '#{'.' * namespace_depth}/#{class_name}'"
-      end
+    imports = other_classes.map{ import_statement(_1[:class_name], _1[:serializer]) }.uniq
+    if imports.present?
       imports << ''
     end
 
@@ -82,8 +83,30 @@ class Rtypes
 
   private
 
-    def namespace_depth
-      @serializer.to_s.split('::').size
+    def serializer_depth(serializer)
+      serializer.to_s.split('::').size
+    end
+
+    def import_statement(class_name, serializer)
+      own_depth = serializer_depth(@serializer)
+      import_depth = serializer_depth(serializer)
+      if own_depth == import_depth
+        "import #{class_name} from './#{class_name}'"
+      else
+        "import #{class_name} from '#{'../' * (own_depth - import_depth)}#{class_name}'"
+      end
+    end
+
+    def find_serializer(class_name)
+      namespaces = @serializer.to_s.deconstantize.split('::')
+      serialize_names = (0..namespaces.size).map do |i|
+        [
+          *namespaces[0...i],
+          "#{class_name}Serializer",
+        ].join('::')
+      end
+      serializers = serialize_names.map{ _1.safe_constantize }
+      serializers.compact.last
     end
 
   class << self

@@ -78,6 +78,21 @@ class RtypesTest < ActiveSupport::TestCase
     EOS
   end
 
+  test 'file_content with namespace2' do
+    rtypes = Rtypes.new(Namespace2::PostSerializer)
+    assert_equal rtypes.file_content, <<~EOS
+      import User from './User'
+
+      type Post = {
+        id: number
+        title: string
+        user?: User
+      }
+
+      export default Post
+    EOS
+  end
+
   test 'config' do
     assert_equal Rtypes.config.path, 'app/javascript/types'
     Rtypes.config.path = 'app/frontend/entrypoints/types'
