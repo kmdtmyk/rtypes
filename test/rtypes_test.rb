@@ -24,14 +24,14 @@ class RtypesTest < ActiveSupport::TestCase
   test 'file_path' do
     skip if ENV['CI']
     rtypes = Rtypes.new('User')
-    assert_equal rtypes.file_path, '/app/test/dummy/app/javascript/types/User.ts'
+    assert_equal '/app/test/dummy/app/javascript/types/User.ts', rtypes.file_path
     Rtypes.config.path = 'app/frontend/entrypoints/types'
-    assert_equal rtypes.file_path, '/app/test/dummy/app/frontend/entrypoints/types/User.ts'
+    assert_equal '/app/test/dummy/app/frontend/entrypoints/types/User.ts', rtypes.file_path
   end
 
   test 'file_content has_many and has_one' do
     rtypes = Rtypes.new('User')
-    assert_equal rtypes.file_content, <<~EOS
+    assert_equal <<~EOS, rtypes.file_content
       import Post from './Post'
 
       type User = {
@@ -49,7 +49,7 @@ class RtypesTest < ActiveSupport::TestCase
 
   test 'file_content belongs_to' do
     rtypes = Rtypes.new('Post')
-    assert_equal rtypes.file_content, <<~EOS
+    assert_equal <<~EOS, rtypes.file_content
       import User from './User'
 
       type Post = {
@@ -65,7 +65,7 @@ class RtypesTest < ActiveSupport::TestCase
 
   test 'file_content with namespace' do
     rtypes = Rtypes.new(Namespace1::PostSerializer)
-    assert_equal rtypes.file_content, <<~EOS
+    assert_equal <<~EOS, rtypes.file_content
       import User from '../User'
 
       type Post = {
@@ -80,7 +80,7 @@ class RtypesTest < ActiveSupport::TestCase
 
   test 'file_content with namespace2' do
     rtypes = Rtypes.new(Namespace2::PostSerializer)
-    assert_equal rtypes.file_content, <<~EOS
+    assert_equal <<~EOS, rtypes.file_content
       import User from './User'
 
       type Post = {
@@ -94,13 +94,13 @@ class RtypesTest < ActiveSupport::TestCase
   end
 
   test 'config' do
-    assert_equal Rtypes.config.path, 'app/javascript/types'
+    assert_equal 'app/javascript/types', Rtypes.config.path
     Rtypes.config.path = 'app/frontend/entrypoints/types'
-    assert_equal Rtypes.config.path, 'app/frontend/entrypoints/types'
+    assert_equal 'app/frontend/entrypoints/types', Rtypes.config.path
   end
 
   test 'config_file_content' do
-    assert_equal Rtypes.config_file_content, <<~EOS.strip
+    assert_equal <<~EOS.strip, Rtypes.config_file_content
       Rtypes.config.path = 'app/javascript/types'
       Rtypes.config.types = {
         integer: 'number',
@@ -114,7 +114,7 @@ class RtypesTest < ActiveSupport::TestCase
     error = assert_raises RuntimeError do
       Rtypes.new('Foo')
     end
-    assert_equal error.message, %(Error: Invalid model name "Foo")
+    assert_equal %(Error: Invalid model name "Foo"), error.message
   end
 
 end
