@@ -17,6 +17,8 @@ class RtypesTest < ActiveSupport::TestCase
     assert_equal 'User.ts', rtypes.file_name
     rtypes = Rtypes.new(UserSerializer)
     assert_equal 'User.ts', rtypes.file_name
+    rtypes = Rtypes.new(Namespace1::PostSerializer)
+    assert_equal 'namespace1/Post.ts', rtypes.file_name
   end
 
   test 'file_path' do

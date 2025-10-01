@@ -5,16 +5,14 @@ class Rtypes
 
   def initialize(name)
     if name.class == Class && name.superclass == ActiveModel::Serializer
-      @name = name.to_s.delete_suffix('Serializer')
-      @model = @name.constantize
+      @model = name.to_s.split('::').last.delete_suffix('Serializer').constantize
       @serializer = name
     else
-      @name = name.classify
-      @model = @name.constantize
-      @serializer = "#{@name}Serializer".constantize
+      @model = name.classify.constantize
+      @serializer = "#{name.classify}Serializer".constantize
     end
   rescue NameError => e
-    raise %(Error: Invalid model name "#{@name}")
+    raise %(Error: Invalid model name "#{name}")
   end
 
   def generate
@@ -23,7 +21,10 @@ class Rtypes
   end
 
   def file_name
-    "#{@name}.ts"
+    [
+      @serializer.to_s.deconstantize.underscore,
+      "#{@model.name}.ts",
+    ].compact_blank.join('/')
   end
 
   def file_path
@@ -62,10 +63,10 @@ class Rtypes
     end
 
     result = [
-      "type #{@name} = {",
+      "type #{@model.name} = {",
       *properties.map{ |property| "  #{property}" },
       "}\n",
-      "export default #{@name}\n"
+      "export default #{@model.name}\n"
     ]
 
     imports = []
