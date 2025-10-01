@@ -15,10 +15,7 @@ namespace :rtypes do
     rtypes = if args[:name].present?
       [Rtypes.new(args[:name])]
     else
-      models = ActiveRecord::Base.connection.tables.map{ _1.classify.safe_constantize }.compact
-      models
-        .filter{ "#{_1.name}Serializer".safe_constantize.present? }
-        .map{ Rtypes.new(_1.name) }
+      Rtypes.all_serializers.map{ Rtypes.new(_1) }
     end
 
     rtypes.each do |rtypes|

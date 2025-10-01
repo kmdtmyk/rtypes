@@ -72,13 +72,19 @@ class Rtypes
     imports = []
     if other_classes.present?
       other_classes.uniq.each do |class_name|
-        imports << "import #{class_name} from './#{class_name}'"
+        imports << "import #{class_name} from '#{'.' * namespace_depth}/#{class_name}'"
       end
       imports << ''
     end
 
     (imports + result).join("\n")
   end
+
+  private
+
+    def namespace_depth
+      @serializer.to_s.split('::').size
+    end
 
   class << self
 
@@ -106,6 +112,11 @@ class Rtypes
         end
         "#{Rtypes}.config.#{name} = #{value}"
       end.join("\n")
+    end
+
+    def all_serializers
+      Dir.glob(Rails.root.join('app/serializers/**/*.rb')).each{ |f| load f }
+      ActiveModel::Serializer.descendants - [ActiveModel::Serializer::ErrorSerializer]
     end
 
   end
