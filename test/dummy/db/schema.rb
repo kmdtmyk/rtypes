@@ -17,8 +17,10 @@ ActiveRecord::Schema.define(version: 2025_04_03_165515) do
     t.string "title"
     t.string "body"
     t.integer "user_id"
+    t.integer "delete_user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["delete_user_id"], name: "index_posts_on_delete_user_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 

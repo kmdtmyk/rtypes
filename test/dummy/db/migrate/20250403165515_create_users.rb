@@ -13,6 +13,7 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.string :title
       t.string :body
       t.references :user
+      t.references :delete_user
 
       t.timestamps
     end
