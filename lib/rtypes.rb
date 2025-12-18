@@ -1,5 +1,6 @@
 require "rtypes/version"
 require "rtypes/railtie"
+require "rtypes/analyzer"
 
 class Rtypes
 
@@ -35,19 +36,18 @@ class Rtypes
 
     properties = []
 
-    @serializer._attributes_data.each do |name, attribute|
-      column = @model.columns.find{ _1.name == name.to_s }
-      column_type = attribute.options[:typescript] || column&.type
+    analyzer = Rtypes::Analyzer.new(@serializer)
+    analyzer.attributes.each do |attribute|
 
-      type = if column_type.class == String
-        column_type
-      elsif self.class.config.types.has_key?(column_type)
-        self.class.config.types[column_type]
+      type = if attribute.dig(:options, :typescript).present?
+        attribute.dig(:options, :typescript)
+      elsif self.class.config.types.has_key?(attribute[:type])
+        self.class.config.types[attribute[:type]]
       else
         'string'
       end
 
-      properties << "#{name.to_s.camelize(:lower)}: #{type}"
+      properties << "#{attribute[:name].to_s.camelize(:lower)}: #{type}"
     end
 
     other_classes = []
