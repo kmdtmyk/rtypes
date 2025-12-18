@@ -1,6 +1,6 @@
 require "test_helper"
 
-class RtypesAnalyzerTest < ActiveSupport::TestCase
+class Rtypes::AnalyzerTest < ActiveSupport::TestCase
 
   test 'attributes' do
     analyzer = Rtypes::Analyzer.new(PostSerializer)
