@@ -23,7 +23,7 @@ class Rtypes
 
     def associations
       @serializer._reflections.map do |name, reflection|
-        class_name = @model._reflections[name.to_s].class_name
+        class_name = @model._reflections.with_indifferent_access[name].class_name
         type = if reflection.class == ActiveModel::Serializer::BelongsToReflection
           :belongs_to
         elsif reflection.class == ActiveModel::Serializer::HasOneReflection
