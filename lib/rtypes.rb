@@ -47,7 +47,7 @@ class Rtypes
         'string'
       end
 
-      properties << "#{attribute[:name].to_s.camelize(:lower)}: #{type}"
+      properties << "#{attribute[:name].camelize(:lower)}: #{type}"
     end
 
     analyzer.associations.each do |association|

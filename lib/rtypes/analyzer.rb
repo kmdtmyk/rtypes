@@ -12,7 +12,7 @@ class Rtypes
         column = @model.columns.find{ _1.name == name.to_s }
         result = {
           type: column&.type,
-          name: name,
+          name: name.to_s,
         }
         if attribute.options.present?
           result[:options] = attribute.options
