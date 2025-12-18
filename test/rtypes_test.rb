@@ -58,6 +58,7 @@ class RtypesTest < ActiveSupport::TestCase
         body: string
         user?: User
         deleteUser?: User
+        comments?: Array<any>
       }
 
       export default Post

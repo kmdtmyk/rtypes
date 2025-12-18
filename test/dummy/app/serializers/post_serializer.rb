@@ -11,4 +11,6 @@ class PostSerializer < ActiveModel::Serializer
   belongs_to :user
   belongs_to :delete_user
 
+  has_many :comments
+
 end

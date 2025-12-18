@@ -51,10 +51,15 @@ class Rtypes
     end
 
     analyzer.associations.each do |association|
-      if association[:type] == :has_many
-        properties << "#{association[:name].camelize(:lower)}?: Array<#{association[:class_name]}>"
+      type = if association[:serializer].present?
+        association[:class_name]
       else
-        properties << "#{association[:name].camelize(:lower)}?: #{association[:class_name]}"
+        'any'
+      end
+      if association[:type] == :has_many
+        properties << "#{association[:name].camelize(:lower)}?: Array<#{type}>"
+      else
+        properties << "#{association[:name].camelize(:lower)}?: #{type}"
       end
     end
 
@@ -65,7 +70,9 @@ class Rtypes
       "export default #{@model.name}\n"
     ]
 
-    other_classes = analyzer.associations.map{ _1[:class_name] }
+    other_classes = analyzer.associations
+      .filter{ _1[:serializer].present? }
+      .map{ _1[:class_name] }
 
     imports = other_classes.map{ import_statement(_1) }.uniq
     if imports.present?

@@ -31,10 +31,14 @@ class Rtypes
         elsif reflection.class == ActiveModel::Serializer::HasManyReflection
           :has_many
         end
+
+        serializer = reflection.dig(:options, :serializer) || "#{class_name}Serializer".safe_constantize
+
         {
           type: type,
           name: name.to_s,
           class_name: class_name,
+          serializer: serializer,
         }
       end
     end

@@ -18,5 +18,14 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.timestamps
     end
 
+    create_table :comments do |t|
+      t.references :post
+      t.datetime :datetime
+      t.string :author
+      t.string :body
+
+      t.timestamps
+    end
+
   end
 end
