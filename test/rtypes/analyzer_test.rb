@@ -19,5 +19,21 @@ class RtypesAnalyzerTest < ActiveSupport::TestCase
     ], analyzer.attributes
   end
 
+  test 'associations' do
+    analyzer = Rtypes::Analyzer.new(PostSerializer)
+    assert_equal [
+      { type: :belongs_to, name: 'user', class_name: 'User' },
+      { type: :belongs_to, name: 'delete_user', class_name: 'User' },
+
+    ], analyzer.associations
+
+    analyzer = Rtypes::Analyzer.new(UserSerializer)
+    assert_equal [
+      { type: :has_many, name: 'posts', class_name: 'Post' },
+      { type: :has_one, name: 'latest_post', class_name: 'Post' },
+
+    ], analyzer.associations
+  end
+
 end
 

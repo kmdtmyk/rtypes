@@ -50,16 +50,11 @@ class Rtypes
       properties << "#{attribute[:name].to_s.camelize(:lower)}: #{type}"
     end
 
-    other_classes = []
-
-    @serializer._reflections.each do |name, reflection|
-      class_name = @model._reflections.with_indifferent_access[name].class_name
-
-      other_classes << class_name
-      if reflection.class == ActiveModel::Serializer::BelongsToReflection || reflection.class == ActiveModel::Serializer::HasOneReflection
-        properties << "#{name.to_s.camelize(:lower)}?: #{class_name}"
-      elsif reflection.class == ActiveModel::Serializer::HasManyReflection
-        properties << "#{name.to_s.camelize(:lower)}?: Array<#{class_name}>"
+    analyzer.associations.each do |association|
+      if association[:type] == :has_many
+        properties << "#{association[:name].camelize(:lower)}?: Array<#{association[:class_name]}>"
+      else
+        properties << "#{association[:name].camelize(:lower)}?: #{association[:class_name]}"
       end
     end
 
@@ -69,6 +64,8 @@ class Rtypes
       "}\n",
       "export default #{@model.name}\n"
     ]
+
+    other_classes = analyzer.associations.map{ _1[:class_name] }
 
     imports = other_classes.map{ import_statement(_1) }.uniq
     if imports.present?
