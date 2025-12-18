@@ -29,5 +29,6 @@ Gem::Specification.new do |spec|
   end
 
   spec.add_development_dependency 'sqlite3', '~> 1.4'
+  spec.add_development_dependency 'minitest', '~> 5'
 
 end
