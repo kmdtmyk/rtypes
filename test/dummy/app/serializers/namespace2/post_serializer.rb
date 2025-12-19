@@ -7,6 +7,7 @@ class Namespace2::PostSerializer < ActiveModel::Serializer
     :title,
   )
 
-  belongs_to :user
+  belongs_to :user, serializer: Namespace2::UserSerializer
+  belongs_to :delete_user
 
 end

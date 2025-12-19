@@ -83,12 +83,14 @@ class RtypesTest < ActiveSupport::TestCase
   test 'file_content with namespace2' do
     rtypes = Rtypes.new(Namespace2::PostSerializer)
     assert_equal <<~EOS, rtypes.file_content
-      import User from './User'
+      import User1 from './User'
+      import User2 from '../User'
 
       type Post = {
         id: number
         title: string
-        user?: User
+        user?: User1
+        deleteUser?: User2
       }
 
       export default Post

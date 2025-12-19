@@ -50,12 +50,30 @@ class Rtypes
       properties << "#{attribute[:name].camelize(:lower)}: #{type}"
     end
 
-    analyzer.associations.each do |association|
+    associations = analyzer.associations
+
+    associations
+      .filter{ _1[:serializer].present? }
+      .group_by{ _1[:class_name] }.each do |class_name, associations|
+        serialiers = associations.map{ _1[:serializer] }.uniq
+        if 1 < serialiers.size
+          associations.each{ _1[:import_name] = "#{_1[:class_name]}#{serialiers.index(_1[:serializer]) + 1}" }
+        else
+          associations.each{ _1[:import_name] = _1[:class_name] }
+        end
+      end
+
+    associations.each do |association|
+      association[:module_name] = module_name(association[:class_name], association[:serializer])
+    end
+
+    associations.each do |association|
       type = if association[:serializer].present?
-        association[:class_name]
+        association[:import_name]
       else
         'any'
       end
+
       if association[:type] == :has_many
         properties << "#{association[:name].camelize(:lower)}?: Array<#{type}>"
       else
@@ -70,11 +88,11 @@ class Rtypes
       "export default #{@model.name}\n"
     ]
 
-    other_classes = analyzer.associations
-      .filter{ _1[:serializer].present? }
-      .map{ _1[:class_name] }
+    imports = associations
+      .filter{ _1[:module_name].present? }
+      .map{ "import #{_1[:import_name]} from '#{_1[:module_name]}'"}
+      .uniq
 
-    imports = other_classes.map{ import_statement(_1) }.uniq
     if imports.present?
       imports << ''
     end
@@ -88,26 +106,17 @@ class Rtypes
       serializer.to_s.split('::').size
     end
 
-    def import_statement(class_name)
+    def module_name(class_name, serializer)
+      if serializer.nil?
+        return
+      end
       own_depth = serializer_depth(@serializer)
-      import_depth = serializer_depth(find_serializer(class_name))
+      import_depth = serializer_depth(serializer)
       if own_depth == import_depth
-        "import #{class_name} from './#{class_name}'"
+        "./#{class_name}"
       else
-        "import #{class_name} from '#{'../' * (own_depth - import_depth)}#{class_name}'"
+        "#{'../' * (own_depth - import_depth)}#{class_name}"
       end
-    end
-
-    def find_serializer(class_name)
-      namespaces = @serializer.to_s.deconstantize.split('::')
-      serialize_names = (0..namespaces.size).map do |i|
-        [
-          *namespaces[0...i],
-          "#{class_name}Serializer",
-        ].join('::')
-      end
-      serializers = serialize_names.map{ _1.safe_constantize }
-      serializers.compact.last
     end
 
   class << self
