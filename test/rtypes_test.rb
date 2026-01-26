@@ -134,7 +134,7 @@ class RtypesTest < ActiveSupport::TestCase
     assert_equal UserSerializer, Rtypes.name_to_serializer('user')
     assert_equal UserSerializer, Rtypes.name_to_serializer('User')
     assert_equal UserSerializer, Rtypes.name_to_serializer('UserSerializer')
-    assert_equal UserSerializer, Rtypes.name_to_serializer('Namespace2::UserSerializer')
+    assert_equal Namespace2::UserSerializer, Rtypes.name_to_serializer('Namespace2::UserSerializer')
     assert_nil Rtypes.name_to_serializer('foo')
     assert_nil Rtypes.name_to_serializer(nil)
   end
