@@ -31,7 +31,7 @@ class Rtypes
         end
 
         removed.each do |path|
-          FileUtils.rm(path_to_delete_file_path(path), force: true)
+          FileUtils.rm(Rtypes.path_to_delete_file_path(path), force: true)
         end
       end
 

@@ -2,10 +2,6 @@ class Rtypes
   class TypeScript
 
     def initialize(serializer)
-      if serializer == nil
-        return
-      end
-
       @serializer = serializer
       @model = Rtypes.serializer_to_model(serializer)
     end
