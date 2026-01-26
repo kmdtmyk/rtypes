@@ -67,7 +67,7 @@ class Rtypes
         end
 
       associations.each do |association|
-        association[:module_name] = module_name(association[:class_name], association[:serializer])
+        association[:module_name] = module_name(association[:serializer])
       end
 
       associations.each do |association|
@@ -109,16 +109,17 @@ class Rtypes
         serializer.to_s.split('::').size
       end
 
-      def module_name(class_name, serializer)
+      def module_name(serializer)
         if serializer.nil?
           return
         end
         own_depth = serializer_depth(@serializer)
         import_depth = serializer_depth(serializer)
+        model = Rtypes.serializer_to_model(serializer)
         if own_depth == import_depth
-          "./#{class_name}"
+          "./#{model.name}"
         else
-          "#{'../' * (own_depth - import_depth)}#{class_name}"
+          "#{'../' * (own_depth - import_depth)}#{model.name}"
         end
       end
 
