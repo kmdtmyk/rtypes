@@ -11,10 +11,6 @@ class RtypesTest < ActiveSupport::TestCase
   end
 
   test 'file_name' do
-    rtypes = Rtypes.new('User')
-    assert_equal 'User.ts', rtypes.file_name
-    rtypes = Rtypes.new('user')
-    assert_equal 'User.ts', rtypes.file_name
     rtypes = Rtypes.new(UserSerializer)
     assert_equal 'User.ts', rtypes.file_name
     rtypes = Rtypes.new(Namespace1::PostSerializer)
@@ -23,14 +19,14 @@ class RtypesTest < ActiveSupport::TestCase
 
   test 'file_path' do
     skip if ENV['CI']
-    rtypes = Rtypes.new('User')
+    rtypes = Rtypes.new(UserSerializer)
     assert_equal '/app/test/dummy/app/javascript/types/User.ts', rtypes.file_path
     Rtypes.config.path = 'app/frontend/entrypoints/types'
     assert_equal '/app/test/dummy/app/frontend/entrypoints/types/User.ts', rtypes.file_path
   end
 
   test 'file_content has_many and has_one' do
-    rtypes = Rtypes.new('User')
+    rtypes = Rtypes.new(UserSerializer)
     assert_equal <<~EOS, rtypes.file_content
       import Post from './Post'
 
@@ -48,7 +44,7 @@ class RtypesTest < ActiveSupport::TestCase
   end
 
   test 'file_content belongs_to' do
-    rtypes = Rtypes.new('Post')
+    rtypes = Rtypes.new(PostSerializer)
     assert_equal <<~EOS, rtypes.file_content
       import User from './User'
 
@@ -114,11 +110,10 @@ class RtypesTest < ActiveSupport::TestCase
     EOS
   end
 
-  test 'invalid model name' do
-    error = assert_raises RuntimeError do
-      Rtypes.new('Foo')
-    end
-    assert_equal %(Error: Invalid model name "Foo"), error.message
+  test 'name_to_serializer' do
+    assert_equal UserSerializer, Rtypes.name_to_serializer('user')
+    assert_equal UserSerializer, Rtypes.name_to_serializer('User')
+    assert_nil Rtypes.name_to_serializer('foo')
   end
 
 end

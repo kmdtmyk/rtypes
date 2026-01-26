@@ -12,13 +12,18 @@ namespace :rtypes do
   desc 'Generate typescript definition file'
   task :generate, [:name] => :environment do |task, args|
 
-    rtypes = if args[:name].present?
-      [Rtypes.new(args[:name])]
+    serializers = if args[:name].present?
+      serializer = Rtypes.name_to_serializer(args[:name])
+      if serializer.nil?
+        raise %(Error: Invalid name "#{args[:name]}")
+      end
+      [serializer]
     else
-      Rtypes.all_serializers.map{ Rtypes.new(_1) }
+      Rtypes.all_serializers
     end
 
-    rtypes.each do |rtypes|
+    serializers.each do |serializer|
+      rtypes = Rtypes.new(serializer)
       rtypes.generate
       puts rtypes.file_path
     end

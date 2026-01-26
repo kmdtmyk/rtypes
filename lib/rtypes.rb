@@ -4,16 +4,9 @@ require "rtypes/analyzer"
 
 class Rtypes
 
-  def initialize(name)
-    if name.class == Class && name.superclass == ActiveModel::Serializer
-      @model = name.to_s.split('::').last.delete_suffix('Serializer').constantize
-      @serializer = name
-    else
-      @model = name.classify.constantize
-      @serializer = "#{name.classify}Serializer".constantize
-    end
-  rescue NameError => e
-    raise %(Error: Invalid model name "#{name}")
+  def initialize(serializer)
+    @serializer = serializer
+    @model = serializer.to_s.split('::').last.delete_suffix('Serializer').constantize
   end
 
   def generate
@@ -150,6 +143,10 @@ class Rtypes
     def all_serializers
       Dir.glob(Rails.root.join('app/serializers/**/*.rb')).each{ |f| load f }
       ActiveModel::Serializer.descendants - [ActiveModel::Serializer::ErrorSerializer]
+    end
+
+    def name_to_serializer(name)
+      "#{name.classify}Serializer".safe_constantize
     end
 
   end
