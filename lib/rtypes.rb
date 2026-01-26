@@ -139,6 +139,7 @@ class Rtypes
         # p modified, added, removed
 
         [*modified, *added].each do |path|
+          load(path)
           serializer = Rtypes.path_to_serializer(path)
           if serializer == nil
             next
