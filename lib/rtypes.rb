@@ -139,15 +139,12 @@ class Rtypes
         # p modified, added, removed
 
         [*modified, *added].each do |path|
-          load(path)
+          Rails.autoloaders.main.reload
           serializer = Rtypes.path_to_serializer(path)
           if serializer == nil
             next
           end
 
-          Object.send(:remove_const, serializer.to_s)
-          load(path)
-          serializer = Rtypes.path_to_serializer(path)
           rtypes = Rtypes.new(serializer)
           file = rtypes.generate
           if file != nil
