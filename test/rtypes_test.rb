@@ -138,4 +138,12 @@ class RtypesTest < ActiveSupport::TestCase
     assert_nil Rtypes.path_to_serializer(nil)
   end
 
+  test 'path_to_delete_file_path' do
+    assert_equal '/app/test/dummy/app/javascript/types/User.ts', Rtypes.path_to_delete_file_path('/app/test/dummy/app/serializers/user_serializer.rb')
+    assert_equal '/app/test/dummy/app/javascript/types/namespace2/User.ts', Rtypes.path_to_delete_file_path('/app/test/dummy/app/serializers/namespace2/user_serializer.rb')
+    Rtypes.config.path = 'app/frontend/entrypoints/types'
+    assert_equal '/app/test/dummy/app/frontend/entrypoints/types/User.ts', Rtypes.path_to_delete_file_path('/app/test/dummy/app/serializers/user_serializer.rb')
+    assert_nil Rtypes.path_to_delete_file_path(nil)
+  end
+
 end

@@ -135,6 +135,8 @@ class Rtypes
     def auto_generate
 
       listener = Listen.to(Rails.root.join('app/serializers')) do |modified, added, removed|
+        # p modified, added, removed
+
         [*modified, *added].each do |path|
           serializer = Rtypes.path_to_serializer(path)
           if serializer == nil
@@ -150,13 +152,7 @@ class Rtypes
         end
 
         removed.each do |path|
-          serializer = Rtypes.path_to_serializer(path)
-          if serializer == nil
-            next
-          end
-
-          rtypes = Rtypes.new(serializer)
-          FileUtils.rm(rtypes.file_path, force: true)
+          FileUtils.rm(path_to_delete_file_path(path), force: true)
         end
       end
 
@@ -210,6 +206,16 @@ class Rtypes
 
     def path_to_serializer(path)
       path.split('app/serializers/').last.delete_suffix('.rb').classify.safe_constantize rescue nil
+    end
+
+    def path_to_delete_file_path(path)
+      if path == nil
+        return
+      end
+
+      path
+        .gsub('app/serializers', Rtypes.config.path)
+        .gsub(File.basename(path), File.basename(path, '_serializer.rb').classify + '.ts')
     end
 
   end
