@@ -15,6 +15,8 @@ class RtypesTest < ActiveSupport::TestCase
     assert_equal 'User.ts', rtypes.file_name
     rtypes = Rtypes.new(Namespace1::PostSerializer)
     assert_equal 'namespace1/Post.ts', rtypes.file_name
+    rtypes = Rtypes.new(nil)
+    assert_nil rtypes.file_name
   end
 
   test 'file_path' do
@@ -23,6 +25,8 @@ class RtypesTest < ActiveSupport::TestCase
     assert_equal '/app/test/dummy/app/javascript/types/User.ts', rtypes.file_path
     Rtypes.config.path = 'app/frontend/entrypoints/types'
     assert_equal '/app/test/dummy/app/frontend/entrypoints/types/User.ts', rtypes.file_path
+    rtypes = Rtypes.new(nil)
+    assert_nil rtypes.file_path
   end
 
   test 'file_content has_many and has_one' do
@@ -91,6 +95,11 @@ class RtypesTest < ActiveSupport::TestCase
 
       export default Post
     EOS
+  end
+
+  test 'file_content nil' do
+    rtypes = Rtypes.new(nil)
+    assert_nil rtypes.file_content
   end
 
   test 'config' do

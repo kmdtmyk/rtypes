@@ -5,16 +5,27 @@ require "rtypes/analyzer"
 class Rtypes
 
   def initialize(serializer)
+    if serializer == nil
+      return
+    end
+
     @serializer = serializer
     @model = serializer.to_s.split('::').last.delete_suffix('Serializer').constantize
   end
 
   def generate
+    if @serializer == nil
+      return
+    end
     FileUtils.mkdir_p(File.dirname(file_path))
     File.new(file_path, 'w').puts(file_content)
   end
 
   def file_name
+    if @serializer == nil
+      return
+    end
+
     [
       @serializer.to_s.deconstantize.underscore,
       "#{@model.name}.ts",
@@ -22,10 +33,13 @@ class Rtypes
   end
 
   def file_path
-    Rails.root.join(Rtypes.config.path, file_name).to_s
+    Rails.root.join(Rtypes.config.path, file_name).to_s rescue nil
   end
 
   def file_content
+    if @serializer == nil
+      return
+    end
 
     properties = []
 
