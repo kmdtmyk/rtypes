@@ -97,6 +97,11 @@ class RtypesTest < ActiveSupport::TestCase
     EOS
   end
 
+  test 'file_content non exist model' do
+    rtypes = Rtypes.new(NonExistModelSerializer)
+    assert_nil rtypes.file_content
+  end
+
   test 'file_content nil' do
     rtypes = Rtypes.new(nil)
     assert_nil rtypes.file_content

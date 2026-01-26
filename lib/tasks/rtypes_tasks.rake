@@ -24,8 +24,10 @@ namespace :rtypes do
 
     serializers.each do |serializer|
       rtypes = Rtypes.new(serializer)
-      rtypes.generate
-      puts rtypes.file_path
+      file = rtypes.generate
+      if file != nil
+        puts file.path
+      end
     end
 
   end

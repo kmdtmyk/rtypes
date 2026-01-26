@@ -12,16 +12,17 @@ class Rtypes
     end
 
     @serializer = serializer
-    @model = serializer.to_s.split('::').last.delete_suffix('Serializer').constantize
+    @model = serializer.to_s.split('::').last.delete_suffix('Serializer').safe_constantize
   end
 
   def generate
-    if @serializer == nil
+    if @serializer == nil || @model == nil
       return
     end
     FileUtils.mkdir_p(File.dirname(file_path))
     File.open(file_path, 'w') do |f|
       f.puts file_content
+      f
     end
   end
 
@@ -41,7 +42,7 @@ class Rtypes
   end
 
   def file_content
-    if @serializer == nil
+    if @serializer == nil || @model == nil
       return
     end
 
