@@ -146,7 +146,9 @@ class Rtypes
     end
 
     def name_to_serializer(name)
-      "#{name.classify}Serializer".safe_constantize
+      if name != nil
+        "#{name.classify}Serializer".safe_constantize
+      end
     end
 
   end
