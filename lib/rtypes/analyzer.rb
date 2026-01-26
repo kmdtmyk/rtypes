@@ -4,7 +4,7 @@ class Rtypes
 
     def initialize(serializer)
       @serializer = serializer
-      @model = serializer.to_s.split('::').last.delete_suffix('Serializer').constantize
+      @model = Rtypes.serializer_to_model(serializer)
     end
 
     def attributes

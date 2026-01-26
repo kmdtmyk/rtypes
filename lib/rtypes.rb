@@ -12,7 +12,7 @@ class Rtypes
     end
 
     @serializer = serializer
-    @model = serializer.to_s.split('::').last.delete_suffix('Serializer').safe_constantize
+    @model = Rtypes.serializer_to_model(serializer)
   end
 
   def generate
@@ -148,12 +148,7 @@ class Rtypes
 
         [*modified, *added].each do |path|
           serializer = Rtypes.path_to_serializer(path)
-          if serializer == nil
-            next
-          end
-
-          rtypes = Rtypes.new(serializer)
-          file = rtypes.generate
+          file = Rtypes.new(serializer).generate
           if file != nil
             puts file.path
           end
@@ -206,6 +201,10 @@ class Rtypes
     def all_serializers
       Dir.glob(Rails.root.join('app/serializers/**/*.rb')).each{ |f| load f }
       ActiveModel::Serializer.descendants - [ActiveModel::Serializer::ErrorSerializer]
+    end
+
+    def serializer_to_model(serializer)
+      serializer.to_s.split('::').last.delete_suffix('Serializer').safe_constantize rescue nil
     end
 
     def name_to_serializer(name)
