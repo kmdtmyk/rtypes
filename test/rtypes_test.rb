@@ -100,11 +100,13 @@ class RtypesTest < ActiveSupport::TestCase
   test 'file_content non exist model' do
     rtypes = Rtypes.new(NonExistModelSerializer)
     assert_nil rtypes.file_content
+    assert_nil rtypes.generate
   end
 
   test 'file_content nil' do
     rtypes = Rtypes.new(nil)
     assert_nil rtypes.file_content
+    assert_nil rtypes.generate
   end
 
   test 'config' do
