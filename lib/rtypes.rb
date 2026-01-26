@@ -161,7 +161,7 @@ class Rtypes
     end
 
     def config_file_content
-      config.to_h.map do |name, value|
+      content = config.to_h.map do |name, value|
         if value.class == Hash
           value = [
             '{',
@@ -173,6 +173,16 @@ class Rtypes
         end
         "#{Rtypes}.config.#{name} = #{value}"
       end.join("\n")
+
+      content += "\n" * 2
+
+      content += <<~EOS
+        if Rails.env.development?
+          Rtypes.auto_generate
+        end
+      EOS
+
+      content
     end
 
     def all_serializers
