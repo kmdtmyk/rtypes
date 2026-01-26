@@ -22,8 +22,14 @@ class Rtypes
     end
 
     def associations
+      model_reflections = @model._reflections.with_indifferent_access
+
       @serializer._reflections.map do |name, reflection|
-        class_name = @model._reflections.with_indifferent_access[name].class_name
+        model_reflection = model_reflections[name]
+        if model_reflection == nil
+          next
+        end
+
         type = if reflection.class == ActiveModel::Serializer::BelongsToReflection
           :belongs_to
         elsif reflection.class == ActiveModel::Serializer::HasOneReflection
@@ -32,6 +38,7 @@ class Rtypes
           :has_many
         end
 
+        class_name = model_reflection.class_name
         serializer = reflection.dig(:options, :serializer) || "#{class_name}Serializer".safe_constantize
 
         {
@@ -40,7 +47,7 @@ class Rtypes
           class_name: class_name,
           serializer: serializer,
         }
-      end
+      end.compact
     end
 
   end
