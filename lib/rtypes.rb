@@ -26,7 +26,7 @@ class Rtypes
           serializer = Rtypes.path_to_serializer(path)
           file = Rtypes.generate(serializer)
           if file != nil
-            puts "[Update] #{file.path}"
+            puts "\e[32m[Update]\e[0m #{file.path}"
           end
         end
 
@@ -34,7 +34,7 @@ class Rtypes
           delete_file_path = Rtypes.path_to_delete_file_path(path)
           if File.exist?(delete_file_path)
             FileUtils.rm_f(delete_file_path)
-            puts "[Delete] #{delete_file_path}"
+            puts "\e[31m[Delete]\e[0m #{delete_file_path}"
           end
         end
       end
