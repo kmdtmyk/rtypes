@@ -135,11 +135,15 @@ class Rtypes
     def auto_generate
 
       listener = Listen.to(Rails.root.join('app/serializers')) do |modified, added, removed|
-        serializers = [*modified, *added]
-          .map{ Rtypes.path_to_serializer(_1) }
-          .compact
+        [*modified, *added].each do |path|
+          serializer = Rtypes.path_to_serializer(path)
+          if serializer == nil
+            next
+          end
 
-        serializers.each do |serializer|
+          Object.send(:remove_const, serializer.to_s)
+          load(path)
+          serializer = Rtypes.path_to_serializer(path)
           rtypes = Rtypes.new(serializer)
           rtypes.generate
           puts rtypes.file_path
