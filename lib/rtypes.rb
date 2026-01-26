@@ -48,9 +48,9 @@ class Rtypes
     associations
       .filter{ _1[:serializer].present? }
       .group_by{ _1[:class_name] }.each do |class_name, associations|
-        serialiers = associations.map{ _1[:serializer] }.uniq
-        if 1 < serialiers.size
-          associations.each{ _1[:import_name] = "#{_1[:class_name]}#{serialiers.index(_1[:serializer]) + 1}" }
+        serializers = associations.map{ _1[:serializer] }.uniq
+        if 1 < serializers.size
+          associations.each{ _1[:import_name] = "#{_1[:class_name]}#{serializers.index(_1[:serializer]) + 1}" }
         else
           associations.each{ _1[:import_name] = _1[:class_name] }
         end
