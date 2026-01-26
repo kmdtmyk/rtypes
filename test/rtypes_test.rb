@@ -109,13 +109,17 @@ class RtypesTest < ActiveSupport::TestCase
   end
 
   test 'config_file_content' do
-    assert_equal <<~EOS.strip, Rtypes.config_file_content
+    assert_equal <<~EOS, Rtypes.config_file_content
       Rtypes.config.path = 'app/javascript/types'
       Rtypes.config.types = {
         integer: 'number',
         decimal: 'string',
         boolean: 'boolean',
       }
+
+      if Rails.env.development?
+        Rtypes.auto_generate
+      end
     EOS
   end
 
