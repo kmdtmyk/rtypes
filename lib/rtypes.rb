@@ -146,15 +146,11 @@ class Rtypes
     end
 
     def name_to_serializer(name)
-      if name != nil
-        "#{name.classify}Serializer".safe_constantize
-      end
+      "#{name.classify}Serializer".safe_constantize rescue nil
     end
 
     def path_to_serializer(path)
-      if path != nil
-        path.split('app/serializers/').last.delete_suffix('.rb').classify.safe_constantize
-      end
+      path.split('app/serializers/').last.delete_suffix('.rb').classify.safe_constantize rescue nil
     end
 
   end
