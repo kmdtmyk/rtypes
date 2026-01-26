@@ -23,7 +23,7 @@ namespace :rtypes do
     end
 
     serializers.each do |serializer|
-      file = Rtypes.new(serializer).generate
+      file = Rtypes.generate(serializer)
       if file != nil
         puts file.path
       end

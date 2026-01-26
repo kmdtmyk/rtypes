@@ -7,16 +7,11 @@ require 'listen'
 
 class Rtypes
 
-  def initialize(serializer)
-    @serializer = serializer
-    @model = Rtypes.serializer_to_model(serializer)
-  end
-
-  def generate
-    Rtypes::TypeScript.new(@serializer).generate
-  end
-
   class << self
+
+    def generate(serializer)
+      Rtypes::TypeScript.new(serializer).generate
+    end
 
     def auto_generate
 
@@ -29,7 +24,7 @@ class Rtypes
 
         [*modified, *added].each do |path|
           serializer = Rtypes.path_to_serializer(path)
-          file = Rtypes.new(serializer).generate
+          file = Rtypes.generate(serializer)
           if file != nil
             puts file.path
           end
