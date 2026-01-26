@@ -151,6 +151,12 @@ class Rtypes
       end
     end
 
+    def path_to_serializer(path)
+      if path != nil
+        path.split('app/serializers/').last.delete_suffix('.rb').classify.safe_constantize
+      end
+    end
+
   end
 
 end

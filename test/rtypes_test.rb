@@ -117,4 +117,11 @@ class RtypesTest < ActiveSupport::TestCase
     assert_nil Rtypes.name_to_serializer(nil)
   end
 
+  test 'path_to_serializer' do
+    assert_equal UserSerializer, Rtypes.path_to_serializer('/app/test/dummy/app/serializers/user_serializer.rb')
+    assert_equal Namespace2::UserSerializer, Rtypes.path_to_serializer('/app/test/dummy/app/serializers/namespace2/user_serializer.rb')
+    assert_nil Rtypes.path_to_serializer('/app/test/dummy/app/serializers/dummy_serializer.rb')
+    assert_nil Rtypes.path_to_serializer(nil)
+  end
+
 end
