@@ -148,6 +148,16 @@ class Rtypes
           rtypes.generate
           puts rtypes.file_path
         end
+
+        removed.each do |path|
+          serializer = Rtypes.path_to_serializer(path)
+          if serializer == nil
+            next
+          end
+
+          rtypes = Rtypes.new(serializer)
+          FileUtils.rm(rtypes.file_path, force: true)
+        end
       end
 
       listener.start
