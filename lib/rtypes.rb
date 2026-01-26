@@ -208,7 +208,15 @@ class Rtypes
     end
 
     def name_to_serializer(name)
-      "#{name.classify}Serializer".safe_constantize rescue nil
+      if name == nil
+        return
+      end
+
+      if name.end_with?('Serializer')
+        name.safe_constantize
+      else
+        "#{name.classify}Serializer".safe_constantize
+      end
     end
 
     def path_to_serializer(path)
