@@ -2,6 +2,8 @@ require "rtypes/version"
 require "rtypes/railtie"
 require "rtypes/analyzer"
 
+require 'listen'
+
 class Rtypes
 
   def initialize(serializer)
@@ -18,7 +20,9 @@ class Rtypes
       return
     end
     FileUtils.mkdir_p(File.dirname(file_path))
-    File.new(file_path, 'w').puts(file_content)
+    File.open(file_path, 'w') do |f|
+      f.puts file_content
+    end
   end
 
   def file_name
@@ -127,6 +131,23 @@ class Rtypes
     end
 
   class << self
+
+    def auto_generate
+
+      listener = Listen.to(Rails.root.join('app/serializers')) do |modified, added, removed|
+        serializers = [*modified, *added]
+          .map{ Rtypes.path_to_serializer(_1) }
+          .compact
+
+        serializers.each do |serializer|
+          rtypes = Rtypes.new(serializer)
+          rtypes.generate
+          puts rtypes.file_path
+        end
+      end
+
+      listener.start
+    end
 
     def config
       @config ||= Struct.new(:path, :types, keyword_init: true).new(

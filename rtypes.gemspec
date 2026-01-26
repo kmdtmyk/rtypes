@@ -28,6 +28,8 @@ Gem::Specification.new do |spec|
     spec.add_dependency "rails"
   end
 
+  spec.add_dependency 'listen'
+
   spec.add_development_dependency 'sqlite3', '~> 1.4'
   spec.add_development_dependency 'minitest', '~> 5'
 
