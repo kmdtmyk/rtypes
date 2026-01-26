@@ -142,8 +142,11 @@ class Rtypes
       listener = Listen.to(Rails.root.join('app/serializers')) do |modified, added, removed|
         # p modified, added, removed
 
-        [*modified, *added].each do |path|
+        if [*modified, *added].find{ _1.end_with?('.rb') }
           Rails.autoloaders.main.reload
+        end
+
+        [*modified, *added].each do |path|
           serializer = Rtypes.path_to_serializer(path)
           if serializer == nil
             next
