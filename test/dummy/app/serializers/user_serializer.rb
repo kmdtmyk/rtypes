@@ -15,9 +15,4 @@ class UserSerializer < ActiveModel::Serializer
   has_many :posts
   has_one :latest_post
 
-  # ignore non exists association
-  has_many :non_exists
-  has_one :non_exist1
-  belongs_to :non_exist2
-
 end

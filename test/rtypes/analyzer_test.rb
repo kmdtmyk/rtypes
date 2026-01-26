@@ -28,6 +28,8 @@ class Rtypes::AnalyzerTest < ActiveSupport::TestCase
       { type: :has_many, name: 'posts', class_name: 'Post', serializer: PostSerializer },
       { type: :has_one, name: 'latest_post', class_name: 'Post', serializer: PostSerializer },
     ], Rtypes::Analyzer.new(UserSerializer).associations
+
+    assert_equal [], Rtypes::Analyzer.new(Namespace3::UserSerializer).associations
   end
 
 end
