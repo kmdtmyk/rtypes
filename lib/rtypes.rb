@@ -16,7 +16,7 @@ class Rtypes
   end
 
   def generate
-    if @serializer == nil || @model == nil
+    if invalid?
       return
     end
     FileUtils.mkdir_p(File.dirname(file_path))
@@ -27,7 +27,7 @@ class Rtypes
   end
 
   def file_name
-    if @serializer == nil
+    if invalid?
       return
     end
 
@@ -42,7 +42,7 @@ class Rtypes
   end
 
   def file_content
-    if @serializer == nil || @model == nil
+    if invalid?
       return
     end
 
@@ -129,6 +129,10 @@ class Rtypes
       else
         "#{'../' * (own_depth - import_depth)}#{class_name}"
       end
+    end
+
+    def invalid?
+      @serializer == nil || @model == nil
     end
 
   class << self
