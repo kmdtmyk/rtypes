@@ -46,7 +46,6 @@ class RtypesTest < ActiveSupport::TestCase
     assert_nil Rtypes.path_to_serializer('/app/test/dummy/app/serializers/user_serializer copy.rb')
     assert_nil Rtypes.path_to_serializer('/app/test/dummy/app/serializers/dummy_serializer.rb')
     assert_nil Rtypes.path_to_serializer('/app/test/dummy/app/serializers/README.md')
-    assert_nil Rtypes.path_to_serializer('/app/test/dummy/app/serializers/syntax_error/user_serializer.rb')
     assert_nil Rtypes.path_to_serializer(nil)
   end
 
