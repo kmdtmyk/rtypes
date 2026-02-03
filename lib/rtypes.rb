@@ -19,7 +19,7 @@ class Rtypes
       listener = Listen.to(Rails.root.join('app/serializers')) do |modified, added, removed|
         # p modified, added, removed
 
-        if [*modified, *added].find{ _1.end_with?('.rb') }
+        if [*modified, *added].find{ _1.end_with?('.rb') && !_1.include?(' ') }
           Rails.autoloaders.main.reload rescue nil
         end
 
