@@ -14,6 +14,7 @@ class Rtypes
     end
 
     def auto_generate
+      digests = {}
 
       listener = Listen.to(Rails.root.join('app/serializers')) do |modified, added, removed|
         # p modified, added, removed
@@ -23,6 +24,14 @@ class Rtypes
         end
 
         [*modified, *added].each do |path|
+          digest = Digest::SHA512.file(path).to_s
+
+          if digests[path] == digest
+            next
+          end
+
+          digests[path] = digest
+
           serializer = Rtypes.path_to_serializer(path)
           file = Rtypes.generate(serializer)
           if file != nil
