@@ -20,7 +20,7 @@ class Rtypes
         # p modified, added, removed
 
         if [*modified, *added].find{ _1.end_with?('.rb') }
-          Rails.autoloaders.main.reload
+          Rails.autoloaders.main.reload rescue nil
         end
 
         [*modified, *added].each do |path|
@@ -110,6 +110,8 @@ class Rtypes
 
     def path_to_serializer(path)
       path.split('app/serializers/').last.delete_suffix('.rb').classify.safe_constantize rescue nil
+    rescue SyntaxError => e
+      nil
     end
 
     def path_to_delete_file_path(path)
