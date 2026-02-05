@@ -4,16 +4,16 @@ class Rtypes::AnalyzerTest < ActiveSupport::TestCase
 
   test 'attributes' do
     assert_equal [
-      { type: :integer, name: 'id' },
-      { type: :string, name: 'title' },
-      { type: :string, name: 'body' },
+      { type: :integer, name: 'id', comment: nil },
+      { type: :string, name: 'title', comment: 'タイトル' },
+      { type: :string, name: 'body', comment: '本文' },
     ], Rtypes::Analyzer.new(PostSerializer).attributes
 
     assert_equal [
-      { type: :integer, name: 'id' },
-      { type: :string, name: 'name' },
-      { type: :boolean, name: 'admin' },
-      { type: nil, name: 'any', options: { typescript: 'any' } },
+      { type: :integer, name: 'id', comment: nil },
+      { type: :string, name: 'name', comment: '氏名' },
+      { type: :boolean, name: 'admin', comment: '管理者' },
+      { type: nil, name: 'any', comment: nil, options: { typescript: 'any' } },
     ], Rtypes::Analyzer.new(UserSerializer).attributes
   end
 

@@ -13,6 +13,7 @@ class Rtypes
         result = {
           type: column&.type,
           name: name.to_s,
+          comment: column&.comment,
         }
         if attribute.options.present?
           result[:options] = attribute.options

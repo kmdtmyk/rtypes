@@ -18,17 +18,17 @@ ActiveRecord::Schema.define(version: 2025_04_03_165515) do
   create_table "comments", force: :cascade do |t|
     t.bigint "post_id"
     t.datetime "datetime"
-    t.string "author"
-    t.string "body"
+    t.string "author", comment: "著者"
+    t.string "body", comment: "本文"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["post_id"], name: "index_comments_on_post_id"
   end
 
   create_table "posts", force: :cascade do |t|
-    t.string "datetime"
-    t.string "title"
-    t.string "body"
+    t.string "datetime", comment: "日時"
+    t.string "title", comment: "タイトル"
+    t.string "body", comment: "本文"
     t.bigint "user_id"
     t.bigint "delete_user_id"
     t.datetime "created_at", precision: 6, null: false
@@ -38,8 +38,8 @@ ActiveRecord::Schema.define(version: 2025_04_03_165515) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "name"
-    t.boolean "admin", default: false, null: false
+    t.string "name", comment: "氏名"
+    t.boolean "admin", default: false, null: false, comment: "管理者"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
