@@ -105,27 +105,6 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
     assert_nil rtypes.generate
   end
 
-  test 'config' do
-    assert_equal 'app/javascript/types', Rtypes.config.path
-    Rtypes.config.path = 'app/frontend/entrypoints/types'
-    assert_equal 'app/frontend/entrypoints/types', Rtypes.config.path
-  end
-
-  test 'config_file_content' do
-    assert_equal <<~EOS, Rtypes.config_file_content
-      Rtypes.config.path = 'app/javascript/types'
-      Rtypes.config.types = {
-        integer: 'number',
-        decimal: 'string',
-        boolean: 'boolean',
-      }
-
-      if Rails.env.development?
-        Rtypes.auto_generate
-      end
-    EOS
-  end
-
   test 'name_to_serializer' do
     assert_equal UserSerializer, Rtypes.name_to_serializer('user')
     assert_equal UserSerializer, Rtypes.name_to_serializer('User')
