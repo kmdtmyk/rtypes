@@ -45,7 +45,7 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
   end
 
   test 'file_content with comment' do
-    rtypes = Rtypes::TypeScript.new(OneAttribute::PostSerializer)
+    rtypes = Rtypes::TypeScript.new(CommentAttribute::PostSerializer)
     assert_equal <<~EOS, rtypes.file_content
       type Post = {
         /**

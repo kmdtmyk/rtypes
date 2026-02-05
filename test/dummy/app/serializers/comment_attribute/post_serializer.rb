@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class OneAttribute::PostSerializer < ActiveModel::Serializer
+class CommentAttribute::PostSerializer < ActiveModel::Serializer
 
   attributes(
     :title,

@@ -41,7 +41,7 @@ class Rtypes::KotlinTest < ActiveSupport::TestCase
   end
 
   test 'file_content with comment' do
-    rtypes = Rtypes::Kotlin.new(OneAttribute::PostSerializer)
+    rtypes = Rtypes::Kotlin.new(CommentAttribute::PostSerializer)
     assert_equal <<~EOS, rtypes.file_content
       data class Post(
           /**
