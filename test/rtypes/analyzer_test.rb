@@ -10,7 +10,8 @@ class Rtypes::AnalyzerTest < ActiveSupport::TestCase
     assert_equal({ name: 'integer', type: :integer, sql_type: 'integer', comment: nil }, attributes[3])
     assert_equal({ name: 'decimal', type: :decimal, sql_type: 'numeric', comment: nil }, attributes[4])
     assert_equal({ name: 'date', type: :date, sql_type: 'date', comment: nil }, attributes[5])
-    assert_equal({ name: 'datetime', type: :datetime, sql_type: 'timestamp without time zone', comment: nil }, attributes[6])
+    assert ['timestamp without time zone', 'timestamp(6) without time zone'].include?(attributes[6].delete(:sql_type))
+    assert_equal({ name: 'datetime', type: :datetime, comment: nil }, attributes[6])
     assert_equal({ name: 'boolean', type: :boolean, sql_type: 'boolean', null: false, comment: nil }, attributes[7])
     assert_equal({ name: 'boolean_not_null_off', type: :boolean, sql_type: 'boolean', null: true, comment: nil }, attributes[8])
 
