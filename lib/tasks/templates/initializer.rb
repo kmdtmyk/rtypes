@@ -6,6 +6,7 @@ Rtypes.config.types = {
 }
 Rtypes.config.enable_kotlin = false
 Rtypes.config.kotlin_package_name = 'your.pacakge.name'
+Rtypes.config.kotlin_root_directory = Rails.root.join('app/serializers')
 
 if Rails.env.development?
   Rtypes.auto_generate

@@ -72,7 +72,7 @@ class Rtypes
     end
 
     def config
-      @config ||= Struct.new(:path, :types, :enable_kotlin, :kotlin_package_name, keyword_init: true).new(
+      @config ||= Struct.new(:path, :types, :enable_kotlin, :kotlin_package_name, :kotlin_root_directory, keyword_init: true).new(
         path: 'app/javascript/types',
         types: {
           integer: 'number',
@@ -109,6 +109,13 @@ class Rtypes
       path.split('app/serializers/').last.delete_suffix('.rb').classify.safe_constantize rescue nil
     rescue SyntaxError => e
       nil
+    end
+
+    def serializer_to_path(serializer)
+      if serializer == nil
+        return
+      end
+      Rails.root.join('app/serializers', serializer.to_s.underscore + '.rb').to_s
     end
 
     def path_to_delete_file_path(path)

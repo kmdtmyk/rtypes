@@ -7,7 +7,7 @@ class Rtypes
     end
 
     def generate
-      if invalid?
+      if invalid? || !generate_target?
         return
       end
       Rtypes.create_file(file_path, file_content)
@@ -91,6 +91,14 @@ class Rtypes
     end
 
     private
+
+
+      def generate_target?
+        if Rtypes.config.kotlin_root_directory.blank?
+          return true
+        end
+        Rtypes.serializer_to_path(@serializer).start_with?(Rtypes.config.kotlin_root_directory.to_s)
+      end
 
       def comment(text)
         <<~EOS.strip
