@@ -25,6 +25,9 @@ class Rtypes
       if path == nil
         return
       end
+      if File.exists?(path) && File.read(path) == content
+        return
+      end
       FileUtils.mkdir_p(File.dirname(path))
       File.open(path, 'w') do |f|
         f.puts content
@@ -33,7 +36,6 @@ class Rtypes
     end
 
     def auto_generate
-      digests = {}
 
       listener = Listen.to(Rails.root.join('app/serializers')) do |modified, added, removed|
         # p modified, added, removed
@@ -45,17 +47,10 @@ class Rtypes
         [*modified, *added].each do |path|
           digest = Digest::SHA512.file(path).to_s
 
-          if digests[path] == digest
-            next
-          end
-
           serializer = Rtypes.path_to_serializer(path)
           files = Rtypes.generate(serializer)
           files.each do |file|
             puts "\e[32m[Update]\e[0m #{file.path}"
-          end
-          if files.present?
-            digests[path] = digest
           end
         end
 
