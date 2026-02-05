@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Namespace4::UserSerializer < ActiveModel::Serializer
+class CustomAttribute::UserSerializer < ActiveModel::Serializer
 
   attribute :any, typescript: 'any' do
     'any value'

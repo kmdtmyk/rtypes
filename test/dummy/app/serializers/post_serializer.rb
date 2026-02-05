@@ -8,9 +8,4 @@ class PostSerializer < ActiveModel::Serializer
     :body,
   )
 
-  belongs_to :user
-  belongs_to :delete_user
-
-  has_many :comments
-
 end

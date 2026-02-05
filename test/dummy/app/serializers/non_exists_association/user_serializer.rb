@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Namespace3::UserSerializer < ActiveModel::Serializer
+class NonExistsAssociation::UserSerializer < ActiveModel::Serializer
 
   attributes(
     :id,

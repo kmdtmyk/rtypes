@@ -44,22 +44,50 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
     EOS
   end
 
-  test 'file_content has_many and has_one' do
-    rtypes = Rtypes::TypeScript.new(UserSerializer)
+  test 'file_content with comment' do
+    rtypes = Rtypes::TypeScript.new(OneAttribute::PostSerializer)
     assert_equal <<~EOS, rtypes.file_content
-      import Post from './Post'
+      type Post = {
+        /**
+         * タイトル
+         */
+        title: string
+      }
+
+      export default Post
+    EOS
+  end
+
+  test 'file_content has_many' do
+    rtypes = Rtypes::TypeScript.new(HasMany::UserSerializer)
+    assert_equal <<~EOS, rtypes.file_content
+      import Post from '../Post'
 
       type User = {
-        id: number
-        /**
-         * 氏名
-         */
-        name: string
-        /**
-         * 管理者
-         */
-        admin: boolean
         posts?: Array<Post>
+      }
+
+      export default User
+    EOS
+  end
+
+  test 'file_content has_many (any)' do
+    rtypes = Rtypes::TypeScript.new(HasMany::PostSerializer)
+    assert_equal <<~EOS, rtypes.file_content
+      type Post = {
+        comments?: Array<any>
+      }
+
+      export default Post
+    EOS
+  end
+
+  test 'file_content has_one' do
+    rtypes = Rtypes::TypeScript.new(HasOne::UserSerializer)
+    assert_equal <<~EOS, rtypes.file_content
+      import Post from '../Post'
+
+      type User = {
         latestPost?: Post
       }
 
@@ -68,23 +96,13 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
   end
 
   test 'file_content belongs_to' do
-    rtypes = Rtypes::TypeScript.new(PostSerializer)
+    rtypes = Rtypes::TypeScript.new(BelongsTo::PostSerializer)
     assert_equal <<~EOS, rtypes.file_content
-      import User from './User'
+      import User from '../User'
 
       type Post = {
-        id: number
-        /**
-         * タイトル
-         */
-        title: string
-        /**
-         * 本文
-         */
-        body: string
         user?: User
         deleteUser?: User
-        comments?: Array<any>
       }
 
       export default Post
@@ -129,8 +147,8 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
     EOS
   end
 
-  test 'file_content any' do
-    rtypes = Rtypes::TypeScript.new(Namespace4::UserSerializer)
+  test 'file_content custom attribute' do
+    rtypes = Rtypes::TypeScript.new(CustomAttribute::UserSerializer)
     assert_equal <<~EOS, rtypes.file_content
       type User = {
         any: any
