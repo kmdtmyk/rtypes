@@ -27,7 +27,7 @@ class Rtypes::KotlinTest < ActiveSupport::TestCase
     rtypes = Rtypes::Kotlin.new(BookSerializer)
     assert_equal <<~EOS, rtypes.file_content
       data class Book(
-          val id: Int? = null,
+          val id: Long? = null,
           /**
            * タイトル
            */

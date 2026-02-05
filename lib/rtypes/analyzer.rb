@@ -11,8 +11,9 @@ class Rtypes
       @serializer._attributes_data.map do |name, attribute|
         column = @model.columns.find{ _1.name == name.to_s }
         result = {
-          type: column&.type,
           name: name.to_s,
+          type: column&.type,
+          sql_type: column&.sql_type,
           comment: column&.comment,
         }
         if attribute.options.present?

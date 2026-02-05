@@ -38,7 +38,9 @@ class Rtypes
       analyzer = Rtypes::Analyzer.new(@serializer)
       analyzer.attributes.each do |attribute|
 
-        type = if attribute[:type] == :integer
+        type = if attribute[:type] == :integer && attribute[:sql_type] == 'bigint'
+          'Long'
+        elsif attribute[:type] == :integer
           'Int'
         else
           'String'

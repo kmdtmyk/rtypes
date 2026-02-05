@@ -4,21 +4,23 @@ class Rtypes::AnalyzerTest < ActiveSupport::TestCase
 
   test 'attributes' do
     assert_equal [
-      { type: :integer, name: 'id', comment: nil },
-      { type: :string, name: 'title', comment: 'タイトル' },
-      { type: :string, name: 'body', comment: '本文' },
-    ], Rtypes::Analyzer.new(PostSerializer).attributes
+      { name: 'id', type: :integer, sql_type: 'bigint', comment: nil },
+      { name: 'title', type: :string, sql_type: 'character varying', comment: 'タイトル' },
+      { name: 'price', type: :integer, sql_type: 'integer', comment: '価格' },
+      { name: 'release_date', type: :date, sql_type: 'date', comment: '発売日' },
+      { name: 'file_size', type: :decimal, sql_type: 'numeric', comment: 'ファイルサイズ' },
+    ], Rtypes::Analyzer.new(BookSerializer).attributes
 
     assert_equal [
-      { type: :integer, name: 'id', comment: nil },
-      { type: :string, name: 'name', comment: '氏名' },
-      { type: :boolean, name: 'admin', comment: '管理者' },
+      { name: 'id', type: :integer, sql_type: 'bigint', comment: nil },
+      { name: 'name', type: :string, sql_type: 'character varying', comment: '氏名' },
+      { name: 'admin',type: :boolean, sql_type: 'boolean', comment: '管理者' },
     ], Rtypes::Analyzer.new(UserSerializer).attributes
   end
 
   test 'attributes any' do
     assert_equal [
-      { type: nil, name: 'any', comment: nil, options: { typescript: 'any' } },
+      { name: 'any', type: nil, sql_type: nil, comment: nil, options: { typescript: 'any' } },
     ], Rtypes::Analyzer.new(Namespace4::UserSerializer).attributes
   end
 
