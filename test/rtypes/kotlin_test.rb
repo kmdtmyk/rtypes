@@ -4,6 +4,7 @@ class Rtypes::KotlinTest < ActiveSupport::TestCase
 
   def setup
     Rtypes.instance_variable_set(:@config, nil)
+    Rtypes.config.kotlin_package_name = nil
   end
 
   test 'file_name' do
@@ -75,6 +76,17 @@ class Rtypes::KotlinTest < ActiveSupport::TestCase
       data class Post(
           val user: User? = null,
           val deleteUser: User? = null
+      )
+    EOS
+  end
+
+  test 'file_content with package name' do
+    Rtypes.config.kotlin_package_name = 'your.package.name'
+    assert_equal <<~EOS, Rtypes::Kotlin.new(HasMany::UserSerializer).file_content
+      package your.package.name
+
+      data class User(
+          val posts: List<Post>? = null
       )
     EOS
   end

@@ -77,11 +77,17 @@ class Rtypes
         return ''
       end
 
-      [
+      result = [
         "data class #{@model.name}(",
         indent(properties.join(",\n")),
         ")\n",
       ].join("\n")
+
+      if Rtypes.config.kotlin_package_name.present?
+        "package #{Rtypes.config.kotlin_package_name}\n\n#{result}"
+      else
+        result
+      end
     end
 
     private
