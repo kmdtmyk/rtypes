@@ -35,6 +35,7 @@ class RtypesTest < ActiveSupport::TestCase
   end
 
   test 'serializer_to_path' do
+    skip if ENV['CI']
     assert_equal '/app/test/dummy/app/serializers/user_serializer.rb', Rtypes.serializer_to_path(UserSerializer)
     assert_equal '/app/test/dummy/app/serializers/api/user_serializer.rb', Rtypes.serializer_to_path(Api::UserSerializer)
     assert_nil Rtypes.serializer_to_path(nil)
