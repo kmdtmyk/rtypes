@@ -8,8 +8,6 @@ class BookSerializer < ActiveModel::Serializer
     :price,
     :release_date,
     :file_size,
-    :boolean_not_null_on,
-    :boolean_not_null_off,
   )
 
 end
