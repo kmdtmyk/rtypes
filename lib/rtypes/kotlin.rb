@@ -63,6 +63,20 @@ class Rtypes
         properties <<  property
       end
 
+      analyzer.associations
+        .filter{ _1[:serializer].present? }
+        .each do |association|
+          properties << if association[:type] == :has_many
+            "val #{association[:name].camelize(:lower)}: List<#{association[:class_name]}>? = null"
+          else
+            "val #{association[:name].camelize(:lower)}: #{association[:class_name]}? = null"
+          end
+        end
+
+      if properties.empty?
+        return ''
+      end
+
       [
         "data class #{@model.name}(",
         indent(properties.join(",\n")),

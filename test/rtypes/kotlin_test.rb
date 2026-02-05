@@ -52,6 +52,33 @@ class Rtypes::KotlinTest < ActiveSupport::TestCase
     EOS
   end
 
+  test 'file_content has_many' do
+    assert_equal <<~EOS, Rtypes::Kotlin.new(HasMany::UserSerializer).file_content
+      data class User(
+          val posts: List<Post>? = null
+      )
+    EOS
+
+    assert_equal '', Rtypes::Kotlin.new(HasMany::PostSerializer).file_content
+  end
+
+  test 'file_content has_one' do
+    assert_equal <<~EOS, Rtypes::Kotlin.new(HasOne::UserSerializer).file_content
+      data class User(
+          val latestPost: Post? = null
+      )
+    EOS
+  end
+
+  test 'file_content belongs_to' do
+    assert_equal <<~EOS, Rtypes::Kotlin.new(BelongsTo::PostSerializer).file_content
+      data class Post(
+          val user: User? = null,
+          val deleteUser: User? = null
+      )
+    EOS
+  end
+
   test 'file_content non exist model' do
     rtypes = Rtypes::Kotlin.new(NonExistModelSerializer)
     assert_nil rtypes.file_content
