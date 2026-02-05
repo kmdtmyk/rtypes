@@ -8,6 +8,10 @@ class Rtypes
     end
 
     def attributes
+      if @model == nil
+        return
+      end
+
       @serializer._attributes_data.map do |name, attribute|
         column = @model.columns.find{ _1.name == name.to_s }
         result = {
@@ -29,6 +33,10 @@ class Rtypes
     end
 
     def associations
+      if @model == nil
+        return
+      end
+
       model_reflections = @model._reflections.with_indifferent_access
 
       @serializer._reflections.map do |name, reflection|

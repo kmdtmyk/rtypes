@@ -22,6 +22,8 @@ class Rtypes::AnalyzerTest < ActiveSupport::TestCase
     assert_equal [
       { name: 'any', type: nil, sql_type: nil, comment: nil, options: { typescript: 'any' } },
     ], Rtypes::Analyzer.new(CustomAttribute::UserSerializer).attributes
+
+    assert_nil Rtypes::Analyzer.new(NonExistModelSerializer).attributes
   end
 
   test 'associations' do
@@ -43,6 +45,8 @@ class Rtypes::AnalyzerTest < ActiveSupport::TestCase
     ], Rtypes::Analyzer.new(HasOne::UserSerializer).associations
 
     assert_equal [], Rtypes::Analyzer.new(NonExistsAssociation::UserSerializer).associations
+
+    assert_nil Rtypes::Analyzer.new(NonExistModelSerializer).associations
   end
 
 end
