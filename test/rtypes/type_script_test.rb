@@ -158,6 +158,17 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
     EOS
   end
 
+  test 'file_content empty' do
+    rtypes = Rtypes::TypeScript.new(Empty::BookSerializer)
+    assert_equal <<~EOS, rtypes.file_content
+      type Book = {
+
+      }
+
+      export default Book
+    EOS
+  end
+
   test 'file_content non exist model' do
     rtypes = Rtypes::TypeScript.new(NonExistModelSerializer)
     assert_nil rtypes.file_content
