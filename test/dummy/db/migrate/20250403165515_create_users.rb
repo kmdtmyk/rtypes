@@ -27,5 +27,14 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.timestamps
     end
 
+    create_table :books do |t|
+      t.string :title, comment: 'タイトル'
+      t.integer :price, comment: '価格'
+      t.date :release_date, comment: '発売日'
+      t.decimal :file_size, comment: 'ファイルサイズ'
+
+      t.timestamps
+    end
+
   end
 end

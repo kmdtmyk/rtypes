@@ -15,6 +15,15 @@ ActiveRecord::Schema.define(version: 2025_04_03_165515) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "books", force: :cascade do |t|
+    t.string "title", comment: "タイトル"
+    t.integer "price", comment: "価格"
+    t.date "release_date", comment: "発売日"
+    t.decimal "file_size", comment: "ファイルサイズ"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "comments", force: :cascade do |t|
     t.bigint "post_id"
     t.datetime "datetime"
