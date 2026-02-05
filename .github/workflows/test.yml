@@ -13,8 +13,18 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:18.1-alpine
+        ports:
+          - "5432:5432"
+        env:
+          POSTGRES_DB: test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
     env:
       RAILS_ENV: test
+      DATABASE_HOST: localhost
       CI: true
     strategy:
       matrix:
@@ -38,5 +48,7 @@ jobs:
         env:
           RAILS_VERSION: ${{ matrix.rails }}
       # Add or replace test runners here
+      - name: Set up database schema
+        run: cd test/dummy; bin/rails db:schema:load
       - name: Run tests
         run: bin/test
