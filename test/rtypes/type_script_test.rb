@@ -25,6 +25,25 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
     assert_nil rtypes.file_path
   end
 
+  test 'file_content' do
+    rtypes = Rtypes::TypeScript.new(SampleSerializer)
+    assert_equal <<~EOS, rtypes.file_content
+      type Sample = {
+        id: number
+        string: string
+        text: string
+        integer: number
+        decimal: string
+        date: string
+        datetime: string
+        boolean: boolean
+        booleanNotNullOff: boolean
+      }
+
+      export default Sample
+    EOS
+  end
+
   test 'file_content has_many and has_one' do
     rtypes = Rtypes::TypeScript.new(UserSerializer)
     assert_equal <<~EOS, rtypes.file_content

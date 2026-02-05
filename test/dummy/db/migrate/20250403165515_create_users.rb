@@ -32,8 +32,19 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.integer :price, comment: '価格'
       t.date :release_date, comment: '発売日'
       t.decimal :file_size, comment: 'ファイルサイズ'
-      t.boolean :boolean_not_null_on, null: false, default: false
-      t.boolean :boolean_not_null_off, default: false
+
+      t.timestamps
+    end
+
+    create_table :samples do |t|
+      t.string :string
+      t.text :text
+      t.integer :integer
+      t.decimal :decimal
+      t.date :date
+      t.datetime :datetime
+      t.boolean :boolean, null: false, default: false
+      t.boolean :boolean_not_null_off
 
       t.timestamps
     end

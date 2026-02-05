@@ -24,28 +24,30 @@ class Rtypes::KotlinTest < ActiveSupport::TestCase
   end
 
   test 'file_content' do
-    rtypes = Rtypes::Kotlin.new(BookSerializer)
+    rtypes = Rtypes::Kotlin.new(SampleSerializer)
     assert_equal <<~EOS, rtypes.file_content
-      data class Book(
+      data class Sample(
           val id: Long? = null,
+          val string: String? = null,
+          val text: String? = null,
+          val integer: Int? = null,
+          val decimal: String? = null,
+          val date: String? = null,
+          val datetime: String? = null,
+          val boolean: Boolean = false,
+          val booleanNotNullOff: Boolean? = null
+      )
+    EOS
+  end
+
+  test 'file_content with comment' do
+    rtypes = Rtypes::Kotlin.new(OneAttribute::PostSerializer)
+    assert_equal <<~EOS, rtypes.file_content
+      data class Post(
           /**
            * タイトル
            */
-          val title: String? = null,
-          /**
-           * 価格
-           */
-          val price: Int? = null,
-          /**
-           * 発売日
-           */
-          val releaseDate: String? = null,
-          /**
-           * ファイルサイズ
-           */
-          val fileSize: String? = null,
-          val booleanNotNullOn: Boolean = false,
-          val booleanNotNullOff: Boolean? = null
+          val title: String? = null
       )
     EOS
   end
