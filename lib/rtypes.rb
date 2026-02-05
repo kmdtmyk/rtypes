@@ -15,6 +15,9 @@ class Rtypes
     end
 
     def create_file(path, content)
+      if path == nil
+        return
+      end
       FileUtils.mkdir_p(File.dirname(path))
       File.open(path, 'w') do |f|
         f.puts content
