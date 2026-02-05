@@ -24,6 +24,7 @@ class RtypesTest < ActiveSupport::TestCase
         decimal: 'string',
         boolean: 'boolean',
       }
+      Rtypes.config.enable_kotlin = false
 
       if Rails.env.development?
         Rtypes.auto_generate

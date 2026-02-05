@@ -20,8 +20,7 @@ namespace :rtypes do
     end
 
     serializers.each do |serializer|
-      file = Rtypes.generate(serializer)
-      if file != nil
+      Rtypes.generate(serializer).each do |file|
         puts file.path
       end
     end

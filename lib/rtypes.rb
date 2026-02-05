@@ -11,7 +11,14 @@ class Rtypes
   class << self
 
     def generate(serializer)
-      Rtypes::TypeScript.new(serializer).generate
+      result = []
+      result << Rtypes::TypeScript.new(serializer).generate
+
+      if Rtypes.config.enable_kotlin == true
+        result << Rtypes::Kotlin.new(serializer).generate
+      end
+
+      result.compact
     end
 
     def create_file(path, content)
@@ -43,9 +50,11 @@ class Rtypes
           end
 
           serializer = Rtypes.path_to_serializer(path)
-          file = Rtypes.generate(serializer)
-          if file != nil
+          files = Rtypes.generate(serializer)
+          files.each do |file|
             puts "\e[32m[Update]\e[0m #{file.path}"
+          end
+          if files.present?
             digests[path] = digest
           end
         end
@@ -63,26 +72,29 @@ class Rtypes
     end
 
     def config
-      @config ||= Struct.new(:path, :types, keyword_init: true).new(
+      @config ||= Struct.new(:path, :types, :enable_kotlin, keyword_init: true).new(
         path: 'app/javascript/types',
         types: {
           integer: 'number',
           decimal: 'string',
           boolean: 'boolean',
         },
+        enable_kotlin: false,
       )
     end
 
     def config_file_content
       content = config.to_h.map do |name, value|
-        if value.class == Hash
-          value = [
+        value = if value.class == Hash
+          [
             '{',
             *value.map{ "  #{_1}: '#{_2}',"},
             '}',
           ].join("\n")
-        else
+        elsif value.is_a?(String)
           value = "'#{value}'"
+        else
+          value
         end
         "#{Rtypes}.config.#{name} = #{value}"
       end.join("\n")
