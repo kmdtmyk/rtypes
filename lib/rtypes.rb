@@ -1,6 +1,7 @@
 require "rtypes/version"
 require "rtypes/railtie"
 require "rtypes/analyzer"
+require "rtypes/kotlin"
 require "rtypes/type_script"
 
 require 'listen'

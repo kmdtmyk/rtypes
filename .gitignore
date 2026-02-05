@@ -9,6 +9,7 @@
 /test/dummy/storage/
 /test/dummy/tmp/
 /test/dummy/app/javascript/types/
+/test/dummy/kotlin/
 
 # bundle
 /bundle/*
