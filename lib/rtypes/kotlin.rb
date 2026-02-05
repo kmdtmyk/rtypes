@@ -92,7 +92,6 @@ class Rtypes
 
     private
 
-
       def generate_target?
         if Rtypes.config.kotlin_root_directory.blank?
           return true
