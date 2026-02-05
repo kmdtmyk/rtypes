@@ -2,10 +2,7 @@ namespace :rtypes do
 
   desc 'Add configuration file'
   task :install do
-    file = File.open(Rails.root.join('config/initializers/rtypes.rb'), 'w') do |f|
-      f.puts Rtypes.config_file_content
-      f
-    end
+    file = Rtypes.create_file(Rails.root.join('config/initializers/rtypes.rb'), Rtypes.config_file_content)
     puts "\e[32m[Create]\e[0m #{file.path}"
   end
 

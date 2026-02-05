@@ -10,11 +10,7 @@ class Rtypes
       if invalid?
         return
       end
-      FileUtils.mkdir_p(File.dirname(file_path))
-      File.open(file_path, 'w') do |f|
-        f.puts file_content
-        f
-      end
+      Rtypes.create_file(file_path, file_content)
     end
 
     def file_name

@@ -14,6 +14,14 @@ class Rtypes
       Rtypes::TypeScript.new(serializer).generate
     end
 
+    def create_file(path, content)
+      FileUtils.mkdir_p(File.dirname(path))
+      File.open(path, 'w') do |f|
+        f.puts content
+        f
+      end
+    end
+
     def auto_generate
       digests = {}
 
