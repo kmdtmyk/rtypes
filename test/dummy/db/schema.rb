@@ -54,7 +54,7 @@ ActiveRecord::Schema.define(version: 2025_04_03_165515) do
     t.date "date"
     t.datetime "datetime"
     t.boolean "boolean", default: false, null: false
-    t.boolean "boolean_not_null_off"
+    t.boolean "boolean_without_not_null"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

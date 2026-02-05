@@ -44,7 +44,7 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.date :date
       t.datetime :datetime
       t.boolean :boolean, null: false, default: false
-      t.boolean :boolean_not_null_off
+      t.boolean :boolean_without_not_null
 
       t.timestamps
     end

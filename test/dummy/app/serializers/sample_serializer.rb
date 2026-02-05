@@ -11,7 +11,7 @@ class SampleSerializer < ActiveModel::Serializer
     :date,
     :datetime,
     :boolean,
-    :boolean_not_null_off,
+    :boolean_without_not_null,
   )
 
 end

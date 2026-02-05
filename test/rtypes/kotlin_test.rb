@@ -36,7 +36,7 @@ class Rtypes::KotlinTest < ActiveSupport::TestCase
           val date: String? = null,
           val datetime: String? = null,
           val boolean: Boolean = false,
-          val booleanNotNullOff: Boolean? = null
+          val booleanWithoutNotNull: Boolean? = null
       )
     EOS
   end

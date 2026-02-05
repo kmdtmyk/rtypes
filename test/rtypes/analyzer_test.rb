@@ -13,7 +13,7 @@ class Rtypes::AnalyzerTest < ActiveSupport::TestCase
     assert ['timestamp without time zone', 'timestamp(6) without time zone'].include?(attributes[6].delete(:sql_type))
     assert_equal({ name: 'datetime', type: :datetime, comment: nil }, attributes[6])
     assert_equal({ name: 'boolean', type: :boolean, sql_type: 'boolean', null: false, comment: nil }, attributes[7])
-    assert_equal({ name: 'boolean_not_null_off', type: :boolean, sql_type: 'boolean', null: true, comment: nil }, attributes[8])
+    assert_equal({ name: 'boolean_without_not_null', type: :boolean, sql_type: 'boolean', null: true, comment: nil }, attributes[8])
 
     attributes = Rtypes::Analyzer.new(UserSerializer).attributes
     assert_equal({ name: 'id', type: :integer, sql_type: 'bigint', comment: nil }, attributes[0])

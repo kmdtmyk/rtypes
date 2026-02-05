@@ -37,7 +37,7 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
         date: string
         datetime: string
         boolean: boolean
-        booleanNotNullOff: boolean
+        booleanWithoutNotNull: boolean
       }
 
       export default Sample
