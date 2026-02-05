@@ -12,8 +12,11 @@
 
 ActiveRecord::Schema.define(version: 2025_04_03_165515) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "comments", force: :cascade do |t|
-    t.integer "post_id"
+    t.bigint "post_id"
     t.datetime "datetime"
     t.string "author"
     t.string "body"
@@ -26,8 +29,8 @@ ActiveRecord::Schema.define(version: 2025_04_03_165515) do
     t.string "datetime"
     t.string "title"
     t.string "body"
-    t.integer "user_id"
-    t.integer "delete_user_id"
+    t.bigint "user_id"
+    t.bigint "delete_user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["delete_user_id"], name: "index_posts_on_delete_user_id"

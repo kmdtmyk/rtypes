@@ -3,7 +3,7 @@ FROM ruby:3.0.3-alpine3.13
 RUN apk update && \
     apk add \
     build-base \
-    sqlite-dev \
+    postgresql-dev \
     tzdata \
     sudo \
     git \

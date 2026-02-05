@@ -8,3 +8,10 @@ services:
     volumes:
       - .:/app
       - ./bundle:/usr/local/bundle
+    depends_on:
+      - db
+  db:
+    image: postgres:18.1
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
