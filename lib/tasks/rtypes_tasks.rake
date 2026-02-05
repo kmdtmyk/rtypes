@@ -6,7 +6,7 @@ namespace :rtypes do
       f.puts Rtypes.config_file_content
       f
     end
-    puts file.path
+    puts "\e[32m[Create]\e[0m #{file.path}"
   end
 
   desc 'Generate typescript definition file'
