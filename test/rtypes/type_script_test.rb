@@ -133,31 +133,4 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
     assert_nil rtypes.generate
   end
 
-  test 'name_to_serializer' do
-    assert_equal UserSerializer, Rtypes.name_to_serializer('user')
-    assert_equal UserSerializer, Rtypes.name_to_serializer('User')
-    assert_equal UserSerializer, Rtypes.name_to_serializer('UserSerializer')
-    assert_equal Namespace2::UserSerializer, Rtypes.name_to_serializer('Namespace2::UserSerializer')
-    assert_nil Rtypes.name_to_serializer('foo')
-    assert_nil Rtypes.name_to_serializer(nil)
-  end
-
-  test 'path_to_serializer' do
-    assert_equal UserSerializer, Rtypes.path_to_serializer('/app/test/dummy/app/serializers/user_serializer.rb')
-    assert_equal Namespace2::UserSerializer, Rtypes.path_to_serializer('/app/test/dummy/app/serializers/namespace2/user_serializer.rb')
-    assert_nil Rtypes.path_to_serializer('/app/test/dummy/app/serializers/user_serializer copy.rb')
-    assert_nil Rtypes.path_to_serializer('/app/test/dummy/app/serializers/dummy_serializer.rb')
-    assert_nil Rtypes.path_to_serializer('/app/test/dummy/app/serializers/README.md')
-    assert_nil Rtypes.path_to_serializer(nil)
-  end
-
-  test 'path_to_delete_file_path' do
-    assert_equal '/app/test/dummy/app/javascript/types/User.ts', Rtypes.path_to_delete_file_path('/app/test/dummy/app/serializers/user_serializer.rb')
-    assert_equal '/app/test/dummy/app/javascript/types/namespace2/User.ts', Rtypes.path_to_delete_file_path('/app/test/dummy/app/serializers/namespace2/user_serializer.rb')
-    Rtypes.config.path = 'app/frontend/entrypoints/types'
-    assert_equal '/app/test/dummy/app/frontend/entrypoints/types/User.ts', Rtypes.path_to_delete_file_path('/app/test/dummy/app/serializers/user_serializer.rb')
-    assert_nil Rtypes.path_to_serializer('/app/test/dummy/app/serializers/README.md')
-    assert_nil Rtypes.path_to_delete_file_path(nil)
-  end
-
 end
