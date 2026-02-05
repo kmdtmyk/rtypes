@@ -10,6 +10,7 @@
 /test/dummy/tmp/
 /test/dummy/app/javascript/types/
 /test/dummy/kotlin/
+/test/dummy/config/initializers/rtypes.rb
 
 # bundle
 /bundle/*
