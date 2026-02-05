@@ -30,12 +30,11 @@ class Rtypes
             next
           end
 
-          digests[path] = digest
-
           serializer = Rtypes.path_to_serializer(path)
           file = Rtypes.generate(serializer)
           if file != nil
             puts "\e[32m[Update]\e[0m #{file.path}"
+            digests[path] = digest
           end
         end
 
