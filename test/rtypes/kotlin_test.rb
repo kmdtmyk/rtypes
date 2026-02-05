@@ -43,7 +43,9 @@ class Rtypes::KotlinTest < ActiveSupport::TestCase
           /**
            * ファイルサイズ
            */
-          val fileSize: String? = null
+          val fileSize: String? = null,
+          val booleanNotNullOn: Boolean = false,
+          val booleanNotNullOff: Boolean? = null
       )
     EOS
   end

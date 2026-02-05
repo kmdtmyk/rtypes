@@ -16,6 +16,11 @@ class Rtypes
           sql_type: column&.sql_type,
           comment: column&.comment,
         }
+
+        if result[:type] == :boolean
+          result[:null] = column&.null
+        end
+
         if attribute.options.present?
           result[:options] = attribute.options
         end

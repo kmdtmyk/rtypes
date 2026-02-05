@@ -9,12 +9,14 @@ class Rtypes::AnalyzerTest < ActiveSupport::TestCase
       { name: 'price', type: :integer, sql_type: 'integer', comment: '価格' },
       { name: 'release_date', type: :date, sql_type: 'date', comment: '発売日' },
       { name: 'file_size', type: :decimal, sql_type: 'numeric', comment: 'ファイルサイズ' },
+      { name: 'boolean_not_null_on', type: :boolean, sql_type: 'boolean', null: false, comment: nil },
+      { name: 'boolean_not_null_off', type: :boolean, sql_type: 'boolean', null: true, comment: nil },
     ], Rtypes::Analyzer.new(BookSerializer).attributes
 
     assert_equal [
       { name: 'id', type: :integer, sql_type: 'bigint', comment: nil },
       { name: 'name', type: :string, sql_type: 'character varying', comment: '氏名' },
-      { name: 'admin',type: :boolean, sql_type: 'boolean', comment: '管理者' },
+      { name: 'admin',type: :boolean, sql_type: 'boolean', null: false, comment: '管理者' },
     ], Rtypes::Analyzer.new(UserSerializer).attributes
   end
 

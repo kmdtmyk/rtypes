@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(version: 2025_04_03_165515) do
     t.integer "price", comment: "価格"
     t.date "release_date", comment: "発売日"
     t.decimal "file_size", comment: "ファイルサイズ"
+    t.boolean "boolean_not_null_on", default: false, null: false
+    t.boolean "boolean_not_null_off", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

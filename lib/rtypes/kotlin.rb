@@ -38,15 +38,23 @@ class Rtypes
       analyzer = Rtypes::Analyzer.new(@serializer)
       analyzer.attributes.each do |attribute|
 
-        type = if attribute[:type] == :integer && attribute[:sql_type] == 'bigint'
-          'Long'
-        elsif attribute[:type] == :integer
-          'Int'
+        type = if attribute[:type] == :integer
+          if attribute[:sql_type] == 'bigint'
+            'Long? = null'
+          else
+            'Int? = null'
+          end
+        elsif attribute[:type] == :boolean
+          if attribute[:null] == false
+            'Boolean = false'
+          else
+            'Boolean? = null'
+          end
         else
-          'String'
+          'String? = null'
         end
 
-        property =  "val #{attribute[:name].camelize(:lower)}: #{type}? = null"
+        property = "val #{attribute[:name].camelize(:lower)}: #{type}"
 
         if attribute[:comment].present?
           property = "#{comment(attribute[:comment])}\n#{property}"
