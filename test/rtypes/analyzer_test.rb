@@ -13,8 +13,13 @@ class Rtypes::AnalyzerTest < ActiveSupport::TestCase
       { type: :integer, name: 'id', comment: nil },
       { type: :string, name: 'name', comment: '氏名' },
       { type: :boolean, name: 'admin', comment: '管理者' },
-      { type: nil, name: 'any', comment: nil, options: { typescript: 'any' } },
     ], Rtypes::Analyzer.new(UserSerializer).attributes
+  end
+
+  test 'attributes any' do
+    assert_equal [
+      { type: nil, name: 'any', comment: nil, options: { typescript: 'any' } },
+    ], Rtypes::Analyzer.new(Namespace4::UserSerializer).attributes
   end
 
   test 'associations' do

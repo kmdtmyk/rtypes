@@ -40,7 +40,6 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
          * 管理者
          */
         admin: boolean
-        any: any
         posts?: Array<Post>
         latestPost?: Post
       }
@@ -108,6 +107,17 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
       }
 
       export default Post
+    EOS
+  end
+
+  test 'file_content any' do
+    rtypes = Rtypes::TypeScript.new(Namespace4::UserSerializer)
+    assert_equal <<~EOS, rtypes.file_content
+      type User = {
+        any: any
+      }
+
+      export default User
     EOS
   end
 
