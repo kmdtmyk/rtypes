@@ -37,6 +37,7 @@ gem 'rtypes', git: 'https://github.com/kmdtmyk/rtypes', ref: '<commit_hash>'
 And then execute:
 ```bash
 $ bundle install
+$ rails rtypes:install
 ```
 
 ## Test
