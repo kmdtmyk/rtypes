@@ -84,33 +84,6 @@ class Rtypes
       )
     end
 
-    def config_file_content
-      content = config.to_h.map do |name, value|
-        value = if value.class == Hash
-          [
-            '{',
-            *value.map{ "  #{_1}: '#{_2}',"},
-            '}',
-          ].join("\n")
-        elsif value.is_a?(String)
-          value = "'#{value}'"
-        else
-          value
-        end
-        "#{Rtypes}.config.#{name} = #{value}"
-      end.join("\n")
-
-      content += "\n" * 2
-
-      content += <<~EOS
-        if Rails.env.development?
-          Rtypes.auto_generate
-        end
-      EOS
-
-      content
-    end
-
     def all_serializers
       Dir.glob(Rails.root.join('app/serializers/**/*.rb')).each{ |f| load f }
       ActiveModel::Serializer.descendants - [ActiveModel::Serializer::ErrorSerializer]
