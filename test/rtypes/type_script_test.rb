@@ -32,7 +32,13 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
 
       type User = {
         id: number
+        /**
+         * 氏名
+         */
         name: string
+        /**
+         * 管理者
+         */
         admin: boolean
         any: any
         posts?: Array<Post>
@@ -50,7 +56,13 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
 
       type Post = {
         id: number
+        /**
+         * タイトル
+         */
         title: string
+        /**
+         * 本文
+         */
         body: string
         user?: User
         deleteUser?: User
@@ -68,6 +80,9 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
 
       type Post = {
         id: number
+        /**
+         * タイトル
+         */
         title: string
         user?: User
       }
@@ -84,6 +99,9 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
 
       type Post = {
         id: number
+        /**
+         * タイトル
+         */
         title: string
         user?: User1
         deleteUser?: User2

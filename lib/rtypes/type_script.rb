@@ -50,7 +50,13 @@ class Rtypes
           'string'
         end
 
-        properties << "#{attribute[:name].camelize(:lower)}: #{type}"
+        property =  "#{attribute[:name].camelize(:lower)}: #{type}"
+
+        if attribute[:comment].present?
+          property = "#{comment(attribute[:comment])}\n#{property}"
+        end
+
+        properties <<  property
       end
 
       associations = analyzer.associations
@@ -86,7 +92,7 @@ class Rtypes
 
       result = [
         "type #{@model.name} = {",
-        *properties.map{ "  #{_1}" },
+        indent(properties.join("\n")),
         "}\n",
         "export default #{@model.name}\n"
       ]
@@ -104,6 +110,18 @@ class Rtypes
     end
 
     private
+
+      def comment(text)
+        <<~EOS.strip
+        /**
+         * #{text}
+         */
+        EOS
+      end
+
+      def indent(text)
+        text.each_line.map{ "  #{_1}" }.join
+      end
 
       def serializer_depth(serializer)
         serializer.to_s.split('::').size
