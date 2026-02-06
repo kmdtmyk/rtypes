@@ -17,9 +17,12 @@ class Rtypes
         result = {
           name: name.to_s,
           type: column&.type,
-          sql_type: column&.sql_type,
           comment: column&.comment,
         }
+
+        if result[:type] == :integer && column&.sql_type == 'bigint'
+          result[:type] = :bigint
+        end
 
         if result[:type] == :boolean
           result[:null] = column&.null

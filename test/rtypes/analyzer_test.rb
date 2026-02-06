@@ -4,25 +4,24 @@ class Rtypes::AnalyzerTest < ActiveSupport::TestCase
 
   test 'attributes' do
     attributes = Rtypes::Analyzer.new(SampleSerializer).attributes
-    assert_equal({ name: 'id', type: :integer, sql_type: 'bigint', comment: nil }, attributes[0])
-    assert_equal({ name: 'string', type: :string, sql_type: 'character varying', comment: nil }, attributes[1])
-    assert_equal({ name: 'text', type: :text, sql_type: 'text', comment: nil }, attributes[2])
-    assert_equal({ name: 'integer', type: :integer, sql_type: 'integer', comment: nil }, attributes[3])
-    assert_equal({ name: 'bigint', type: :integer, sql_type: 'bigint', comment: nil }, attributes[4])
-    assert_equal({ name: 'decimal', type: :decimal, sql_type: 'numeric', comment: nil }, attributes[5])
-    assert_equal({ name: 'date', type: :date, sql_type: 'date', comment: nil }, attributes[6])
-    assert ['timestamp without time zone', 'timestamp(6) without time zone'].include?(attributes[7].delete(:sql_type))
+    assert_equal({ name: 'id', type: :bigint, comment: nil }, attributes[0])
+    assert_equal({ name: 'string', type: :string, comment: nil }, attributes[1])
+    assert_equal({ name: 'text', type: :text, comment: nil }, attributes[2])
+    assert_equal({ name: 'integer', type: :integer, comment: nil }, attributes[3])
+    assert_equal({ name: 'bigint', type: :bigint, comment: nil }, attributes[4])
+    assert_equal({ name: 'decimal', type: :decimal, comment: nil }, attributes[5])
+    assert_equal({ name: 'date', type: :date, comment: nil }, attributes[6])
     assert_equal({ name: 'datetime', type: :datetime, comment: nil }, attributes[7])
-    assert_equal({ name: 'boolean', type: :boolean, sql_type: 'boolean', null: false, comment: nil }, attributes[8])
-    assert_equal({ name: 'boolean_without_not_null', type: :boolean, sql_type: 'boolean', null: true, comment: nil }, attributes[9])
+    assert_equal({ name: 'boolean', type: :boolean, null: false, comment: nil }, attributes[8])
+    assert_equal({ name: 'boolean_without_not_null', type: :boolean, null: true, comment: nil }, attributes[9])
 
     attributes = Rtypes::Analyzer.new(UserSerializer).attributes
-    assert_equal({ name: 'id', type: :integer, sql_type: 'bigint', comment: nil }, attributes[0])
-    assert_equal({ name: 'name', type: :string, sql_type: 'character varying', comment: '氏名' }, attributes[1])
-    assert_equal({ name: 'admin',type: :boolean, sql_type: 'boolean', null: false, comment: '管理者' }, attributes[2])
+    assert_equal({ name: 'id', type: :bigint, comment: nil }, attributes[0])
+    assert_equal({ name: 'name', type: :string, comment: '氏名' }, attributes[1])
+    assert_equal({ name: 'admin',type: :boolean, null: false, comment: '管理者' }, attributes[2])
 
     assert_equal [
-      { name: 'any', type: nil, sql_type: nil, comment: nil, options: { typescript: 'any' } },
+      { name: 'any', type: nil, comment: nil, options: { typescript: 'any' } },
     ], Rtypes::Analyzer.new(CustomAttribute::UserSerializer).attributes
 
     assert_nil Rtypes::Analyzer.new(NonExistModelSerializer).attributes

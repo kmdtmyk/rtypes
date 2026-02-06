@@ -39,11 +39,9 @@ class Rtypes
       analyzer.attributes.each do |attribute|
 
         type = if attribute[:type] == :integer
-          if attribute[:sql_type] == 'bigint'
-            'Long? = null'
-          else
-            'Int? = null'
-          end
+          'Int? = null'
+        elsif attribute[:type] == :bigint
+          'Long? = null'
         elsif attribute[:type] == :boolean
           if attribute[:null] == false
             'Boolean = false'

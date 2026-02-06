@@ -71,6 +71,7 @@ class Rtypes
         path: 'app/javascript/types',
         types: {
           integer: 'number',
+          bigint: 'number',
           decimal: 'string',
           boolean: 'boolean',
         },
