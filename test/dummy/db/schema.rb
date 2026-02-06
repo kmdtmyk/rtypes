@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 2025_04_03_165515) do
     t.string "string"
     t.text "text"
     t.integer "integer"
+    t.bigint "bigint"
     t.decimal "decimal"
     t.date "date"
     t.datetime "datetime"

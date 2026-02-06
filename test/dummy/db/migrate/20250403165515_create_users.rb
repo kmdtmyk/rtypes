@@ -40,6 +40,7 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.string :string
       t.text :text
       t.integer :integer
+      t.bigint :bigint
       t.decimal :decimal
       t.date :date
       t.datetime :datetime

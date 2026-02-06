@@ -7,6 +7,7 @@ class SampleSerializer < ActiveModel::Serializer
     :string,
     :text,
     :integer,
+    :bigint,
     :decimal,
     :date,
     :datetime,

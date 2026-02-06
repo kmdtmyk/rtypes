@@ -32,6 +32,7 @@ class Rtypes::KotlinTest < ActiveSupport::TestCase
           val string: String? = null,
           val text: String? = null,
           val integer: Int? = null,
+          val bigint: Long? = null,
           val decimal: String? = null,
           val date: String? = null,
           val datetime: String? = null,

@@ -33,6 +33,7 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
         string: string
         text: string
         integer: number
+        bigint: number
         decimal: string
         date: string
         datetime: string
