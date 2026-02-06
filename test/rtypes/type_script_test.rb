@@ -17,12 +17,10 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
 
   test 'file_path' do
     skip if ENV['CI']
-    rtypes = Rtypes::TypeScript.new(UserSerializer)
-    assert_equal '/app/test/dummy/app/javascript/types/User.ts', rtypes.file_path
+    assert_equal '/app/test/dummy/app/javascript/types/User.ts', Rtypes::TypeScript.new(UserSerializer).file_path
     Rtypes.config.path = 'app/frontend/entrypoints/types'
-    assert_equal '/app/test/dummy/app/frontend/entrypoints/types/User.ts', rtypes.file_path
-    rtypes = Rtypes::TypeScript.new(nil)
-    assert_nil rtypes.file_path
+    assert_equal '/app/test/dummy/app/frontend/entrypoints/types/User.ts', Rtypes::TypeScript.new(UserSerializer).file_path
+    assert_nil Rtypes::TypeScript.new(nil).file_path
   end
 
   test 'file_content' do

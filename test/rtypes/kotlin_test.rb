@@ -18,10 +18,9 @@ class Rtypes::KotlinTest < ActiveSupport::TestCase
 
   test 'file_path' do
     skip if ENV['CI']
-    rtypes = Rtypes::Kotlin.new(UserSerializer)
-    assert_equal '/app/test/dummy/kotlin/User.kt', rtypes.file_path
-    rtypes = Rtypes::Kotlin.new(nil)
-    assert_nil rtypes.file_path
+    assert_equal '/app/test/dummy/kotlin/User.kt', Rtypes::Kotlin.new(UserSerializer).file_path
+    assert_equal '/app/test/dummy/kotlin/api/User.kt', Rtypes::Kotlin.new(Api::UserSerializer).file_path
+    assert_nil Rtypes::Kotlin.new(nil).file_path
   end
 
   test 'file_content' do
