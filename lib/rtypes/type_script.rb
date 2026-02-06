@@ -33,26 +33,10 @@ class Rtypes
         return
       end
 
-      properties = []
-
       analyzer = Rtypes::Analyzer.new(@serializer)
-      analyzer.attributes.each do |attribute|
 
-        type = if attribute.dig(:options, :typescript).present?
-          attribute.dig(:options, :typescript)
-        elsif Rtypes.config.types.has_key?(attribute[:type])
-          Rtypes.config.types[attribute[:type]]
-        else
-          'string'
-        end
-
-        property =  "#{attribute[:name].camelize(:lower)}: #{type}"
-
-        if attribute[:comment].present?
-          property = "#{comment(attribute[:comment])}\n#{property}"
-        end
-
-        properties <<  property
+      properties = analyzer.attributes.map do |attribute|
+        Rtypes::TypeScript.attribute_to_property(attribute)
       end
 
       associations = analyzer.associations
@@ -88,7 +72,7 @@ class Rtypes
 
       result = [
         "type #{@model.name} = {",
-        indent(properties.join("\n")),
+        Rtypes::TypeScript.indent(properties.join("\n")),
         "}\n",
         "export default #{@model.name}\n"
       ]
@@ -105,7 +89,25 @@ class Rtypes
       (imports + result).join("\n")
     end
 
-    private
+    class << self
+
+      def attribute_to_property(attribute)
+        type = if attribute.dig(:options, :typescript).present?
+          attribute.dig(:options, :typescript)
+        elsif Rtypes.config.types.has_key?(attribute[:type])
+          Rtypes.config.types[attribute[:type]]
+        else
+          'string'
+        end
+
+        result =  "#{attribute[:name].camelize(:lower)}: #{type}"
+
+        if attribute[:comment].present?
+          result = "#{Rtypes::TypeScript.comment(attribute[:comment])}\n#{result}"
+        end
+
+        result
+      end
 
       def comment(text)
         <<~EOS.strip
@@ -118,6 +120,10 @@ class Rtypes
       def indent(text)
         text.each_line.map{ "  #{_1}" }.join
       end
+
+    end
+
+    private
 
       def serializer_depth(serializer)
         serializer.to_s.split('::').size

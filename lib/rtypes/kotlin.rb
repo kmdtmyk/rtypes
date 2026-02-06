@@ -33,32 +33,10 @@ class Rtypes
         return
       end
 
-      properties = []
-
       analyzer = Rtypes::Analyzer.new(@serializer)
-      analyzer.attributes.each do |attribute|
 
-        type = if attribute[:type] == :integer
-          'Int? = null'
-        elsif attribute[:type] == :bigint
-          'Long? = null'
-        elsif attribute[:type] == :boolean
-          if attribute[:null] == false
-            'Boolean = false'
-          else
-            'Boolean? = null'
-          end
-        else
-          'String? = null'
-        end
-
-        property = "val #{attribute[:name].camelize(:lower)}: #{type}"
-
-        if attribute[:comment].present?
-          property = "#{comment(attribute[:comment])}\n#{property}"
-        end
-
-        properties <<  property
+      properties = analyzer.attributes.map do |attribute|
+        Rtypes::Kotlin.attribute_to_property(attribute)
       end
 
       analyzer.associations
@@ -77,7 +55,7 @@ class Rtypes
 
       result = [
         "data class #{@model.name}(",
-        indent(properties.join(",\n")),
+        Rtypes::Kotlin.indent(properties.join(",\n")),
         ")\n",
       ].join("\n")
 
@@ -88,13 +66,31 @@ class Rtypes
       end
     end
 
-    private
+    class << self
 
-      def generate_target?
-        if Rtypes.config.kotlin_root_directory.blank?
-          return true
+      def attribute_to_property(attribute)
+
+        type = if attribute[:type] == :integer
+          'Int? = null'
+        elsif attribute[:type] == :bigint
+          'Long? = null'
+        elsif attribute[:type] == :boolean
+          if attribute[:null] == false
+            'Boolean = false'
+          else
+            'Boolean? = null'
+          end
+        else
+          'String? = null'
         end
-        Rtypes.serializer_to_path(@serializer).start_with?(Rtypes.config.kotlin_root_directory.to_s)
+
+        result = "val #{attribute[:name].camelize(:lower)}: #{type}"
+
+        if attribute[:comment].present?
+          result = "#{Rtypes::Kotlin.comment(attribute[:comment])}\n#{result}"
+        end
+
+        result
       end
 
       def comment(text)
@@ -107,6 +103,17 @@ class Rtypes
 
       def indent(text)
         text.each_line.map{ "    #{_1}" }.join
+      end
+
+    end
+
+    private
+
+      def generate_target?
+        if Rtypes.config.kotlin_root_directory.blank?
+          return true
+        end
+        Rtypes.serializer_to_path(@serializer).start_with?(Rtypes.config.kotlin_root_directory.to_s)
       end
 
       def invalid?

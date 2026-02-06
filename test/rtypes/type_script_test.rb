@@ -177,4 +177,24 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
     assert_nil rtypes.generate
   end
 
+  test 'attribute_to_property' do
+    assert_equal 'id: number', Rtypes::TypeScript.attribute_to_property(name: 'id', type: :bigint)
+    assert_equal 'string: string', Rtypes::TypeScript.attribute_to_property(name: 'string', type: :string)
+    assert_equal 'text: string', Rtypes::TypeScript.attribute_to_property(name: 'text', type: :text)
+    assert_equal 'integer: number', Rtypes::TypeScript.attribute_to_property(name: 'integer', type: :integer)
+    assert_equal 'bigint: number', Rtypes::TypeScript.attribute_to_property(name: 'bigint', type: :bigint)
+    assert_equal 'decimal: string', Rtypes::TypeScript.attribute_to_property(name: 'decimal', type: :decimal)
+    assert_equal 'date: string', Rtypes::TypeScript.attribute_to_property(name: 'date', type: :date)
+    assert_equal 'datetime: string', Rtypes::TypeScript.attribute_to_property(name: 'datetime', type: :datetime)
+    assert_equal 'boolean: boolean', Rtypes::TypeScript.attribute_to_property(name: 'boolean', type: :boolean)
+    assert_equal 'foo: any', Rtypes::TypeScript.attribute_to_property(name: 'foo', options: { typescript: 'any' })
+
+    assert_equal <<~EOS.strip, Rtypes::TypeScript.attribute_to_property(name: 'text', type: :text, comment: 'こめんと')
+    /**
+     * こめんと
+     */
+    text: string
+    EOS
+  end
+
 end

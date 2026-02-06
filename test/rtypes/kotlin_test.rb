@@ -100,4 +100,24 @@ class Rtypes::KotlinTest < ActiveSupport::TestCase
     assert_nil rtypes.generate
   end
 
+  test 'attribute_to_property' do
+    assert_equal 'val id: Long? = null', Rtypes::Kotlin.attribute_to_property(name: 'id', type: :bigint)
+    assert_equal 'val string: String? = null', Rtypes::Kotlin.attribute_to_property(name: 'string', type: :string)
+    assert_equal 'val text: String? = null', Rtypes::Kotlin.attribute_to_property(name: 'text', type: :text)
+    assert_equal 'val integer: Int? = null', Rtypes::Kotlin.attribute_to_property(name: 'integer', type: :integer)
+    assert_equal 'val bigint: Long? = null', Rtypes::Kotlin.attribute_to_property(name: 'bigint', type: :bigint)
+    assert_equal 'val decimal: String? = null', Rtypes::Kotlin.attribute_to_property(name: 'decimal', type: :decimal)
+    assert_equal 'val date: String? = null', Rtypes::Kotlin.attribute_to_property(name: 'date', type: :date)
+    assert_equal 'val datetime: String? = null', Rtypes::Kotlin.attribute_to_property(name: 'datetime', type: :datetime)
+    assert_equal 'val boolean: Boolean = false', Rtypes::Kotlin.attribute_to_property(name: 'boolean', type: :boolean, null: false)
+    assert_equal 'val boolean: Boolean? = null', Rtypes::Kotlin.attribute_to_property(name: 'boolean', type: :boolean, null: true)
+
+    assert_equal <<~EOS.strip, Rtypes::Kotlin.attribute_to_property(name: 'text', type: :text, comment: 'こめんと')
+    /**
+     * こめんと
+     */
+    val text: String? = null
+    EOS
+  end
+
 end
