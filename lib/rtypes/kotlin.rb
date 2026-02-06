@@ -25,7 +25,7 @@ class Rtypes
     end
 
     def file_path
-      Rails.root.join('kotlin', file_name).to_s rescue nil
+      "#{Rails.root.join('kotlin', file_name)}" rescue nil
     end
 
     def file_content
