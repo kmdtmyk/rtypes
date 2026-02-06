@@ -8,12 +8,9 @@ class Rtypes::KotlinTest < ActiveSupport::TestCase
   end
 
   test 'file_name' do
-    rtypes = Rtypes::Kotlin.new(UserSerializer)
-    assert_equal 'User.kt', rtypes.file_name
-    rtypes = Rtypes::Kotlin.new(Namespace1::PostSerializer)
-    assert_equal 'namespace1/Post.kt', rtypes.file_name
-    rtypes = Rtypes::Kotlin.new(nil)
-    assert_nil rtypes.file_name
+    assert_equal 'User.kt', Rtypes::Kotlin.new(UserSerializer).file_name
+    assert_equal 'namespace1/Post.kt', Rtypes::Kotlin.new(Namespace1::PostSerializer).file_name
+    assert_nil Rtypes::Kotlin.new(nil).file_name
   end
 
   test 'file_path' do

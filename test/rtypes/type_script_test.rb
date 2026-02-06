@@ -7,12 +7,9 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
   end
 
   test 'file_name' do
-    rtypes = Rtypes::TypeScript.new(UserSerializer)
-    assert_equal 'User.ts', rtypes.file_name
-    rtypes = Rtypes::TypeScript.new(Namespace1::PostSerializer)
-    assert_equal 'namespace1/Post.ts', rtypes.file_name
-    rtypes = Rtypes::TypeScript.new(nil)
-    assert_nil rtypes.file_name
+    assert_equal 'User.ts', Rtypes::TypeScript.new(UserSerializer).file_name
+    assert_equal 'namespace1/Post.ts', Rtypes::TypeScript.new(Namespace1::PostSerializer).file_name
+    assert_nil Rtypes::TypeScript.new(nil).file_name
   end
 
   test 'file_path' do
