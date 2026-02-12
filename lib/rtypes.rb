@@ -25,7 +25,7 @@ class Rtypes
       if path == nil
         return
       end
-      if File.exists?(path) && File.read(path) == content
+      if FileTest.exist?(path) && File.read(path) == content
         return
       end
       FileUtils.mkdir_p(File.dirname(path))
