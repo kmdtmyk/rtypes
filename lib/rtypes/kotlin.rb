@@ -53,13 +53,11 @@ class Rtypes
         return ''
       end
 
-      line_space = "\n" * [Rtypes.config.line_space.to_i + 1, 1].max
-
       result = [
         "data class #{@model.name}(",
-        properties.map{ Rtypes::Kotlin.indent(_1) }.join(",#{line_space}"),
+        properties.map{ Rtypes::Kotlin.indent(_1) }.join(",#{Rtypes.line_break}"),
         ")\n",
-      ].join(line_space)
+      ].join(Rtypes.line_break)
 
       if Rtypes.config.kotlin_package_name.present?
         "package #{Rtypes.config.kotlin_package_name}\n\n#{result}"

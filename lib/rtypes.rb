@@ -133,6 +133,10 @@ class Rtypes
         .gsub(File.basename(path), File.basename(path, '_serializer.rb').classify + '.ts')
     end
 
+    def line_break
+      "\n" * [Rtypes.config.line_space.to_i + 1, 1].max
+    end
+
   end
 
 end

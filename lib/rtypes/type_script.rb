@@ -81,7 +81,7 @@ class Rtypes
         .map{ "import #{_1[:import_name]} from '#{_1[:module_name]}'"}
         .uniq
 
-      result = contents.join("\n" * [Rtypes.config.line_space.to_i + 1, 1].max) + "\n\nexport default #{@model.name}\n"
+      result = contents.join(Rtypes.line_break) + "\n\nexport default #{@model.name}\n"
 
       if imports.present?
         "#{imports.join("\n")}\n\n#{result}"
