@@ -70,7 +70,11 @@ class Rtypes
 
       def attribute_to_property(attribute)
 
-        type = if attribute[:type] == :integer
+        type_config = Rtypes.config.kotlin_types&.find{ _1[:type] == attribute[:type] }
+
+        type = if type_config&.dig(:class).present?
+          "#{type_config[:class]}? = null"
+        elsif attribute[:type] == :integer
           'Int? = null'
         elsif attribute[:type] == :bigint
           'Long? = null'
@@ -88,6 +92,10 @@ class Rtypes
 
         if attribute[:comment].present?
           result = "#{Rtypes::Kotlin.comment(attribute[:comment])}\n#{result}"
+        end
+
+        if type_config&.dig(:annotation).present?
+          result = "#{type_config[:annotation]}\n#{result}"
         end
 
         result
