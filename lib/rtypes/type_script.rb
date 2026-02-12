@@ -70,11 +70,10 @@ class Rtypes
         end
       end
 
-      result = [
+      contents = [
         "type #{@model.name} = {",
-        Rtypes::TypeScript.indent(properties.join("\n")),
-        "}\n",
-        "export default #{@model.name}\n"
+        *properties.map{ Rtypes::TypeScript.indent(_1) },
+        "}",
       ]
 
       imports = associations
@@ -82,11 +81,13 @@ class Rtypes
         .map{ "import #{_1[:import_name]} from '#{_1[:module_name]}'"}
         .uniq
 
-      if imports.present?
-        imports << ''
-      end
+      result = contents.join("\n" * [Rtypes.config.line_space.to_i + 1, 1].max) + "\n\nexport default #{@model.name}\n"
 
-      (imports + result).join("\n")
+      if imports.present?
+        "#{imports.join("\n")}\n\n#{result}"
+      else
+        result
+      end
     end
 
     class << self

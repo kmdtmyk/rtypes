@@ -67,7 +67,16 @@ class Rtypes
     end
 
     def config
-      @config ||= Struct.new(:path, :types, :enable_kotlin, :kotlin_package_name, :kotlin_root_directory, :kotlin_types, keyword_init: true).new(
+      @config ||= Struct.new(
+        :path,
+        :types,
+        :line_space,
+        :enable_kotlin,
+        :kotlin_package_name,
+        :kotlin_root_directory,
+        :kotlin_types,
+        keyword_init: true
+      ).new(
         path: 'app/javascript/types',
         types: {
           integer: 'number',

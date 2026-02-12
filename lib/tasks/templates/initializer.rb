@@ -5,6 +5,7 @@ Rtypes.config.types = {
   decimal: 'string',
   boolean: 'boolean',
 }
+Rtypes.config.line_space = 1
 
 Rtypes.config.enable_kotlin = false
 Rtypes.config.kotlin_package_name = 'your.pacakge.name'

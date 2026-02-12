@@ -145,10 +145,31 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
     EOS
   end
 
+  test 'file_content line space' do
+    Rtypes.config.line_space = 1
+    assert_equal <<~EOS, Rtypes::TypeScript.new(OneAttribute::UserSerializer).file_content
+      type User = {
+
+        id: number
+
+      }
+
+      export default User
+    EOS
+
+    Rtypes.config.line_space = -9999
+    assert_equal <<~EOS, Rtypes::TypeScript.new(OneAttribute::UserSerializer).file_content
+      type User = {
+        id: number
+      }
+
+      export default User
+    EOS
+  end
+
   test 'file_content empty' do
     assert_equal <<~EOS, Rtypes::TypeScript.new(Empty::BookSerializer).file_content
       type Book = {
-
       }
 
       export default Book
