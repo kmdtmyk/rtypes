@@ -25,6 +25,7 @@ class Rtypes::KotlinTest < ActiveSupport::TestCase
       data class Sample(
           val id: Long? = null,
           val string: String? = null,
+          val stringNotNull: String = "",
           val text: String? = null,
           val integer: Int? = null,
           val bigint: Long? = null,
@@ -123,6 +124,7 @@ class Rtypes::KotlinTest < ActiveSupport::TestCase
   test 'attribute_to_property' do
     assert_equal 'val id: Long? = null', Rtypes::Kotlin.attribute_to_property(name: 'id', type: :bigint)
     assert_equal 'val string: String? = null', Rtypes::Kotlin.attribute_to_property(name: 'string', type: :string)
+    assert_equal 'val string: String = ""', Rtypes::Kotlin.attribute_to_property(name: 'string', type: :string, null: false)
     assert_equal 'val text: String? = null', Rtypes::Kotlin.attribute_to_property(name: 'text', type: :text)
     assert_equal 'val integer: Int? = null', Rtypes::Kotlin.attribute_to_property(name: 'integer', type: :integer)
     assert_equal 'val bigint: Long? = null', Rtypes::Kotlin.attribute_to_property(name: 'bigint', type: :bigint)

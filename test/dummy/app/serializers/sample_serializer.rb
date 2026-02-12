@@ -5,6 +5,7 @@ class SampleSerializer < ActiveModel::Serializer
   attributes(
     :id,
     :string,
+    :string_not_null,
     :text,
     :integer,
     :bigint,

@@ -25,6 +25,7 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
       type Sample = {
         id: number
         string: string
+        stringNotNull: string
         text: string
         integer: number
         bigint: number

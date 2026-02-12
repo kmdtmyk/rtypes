@@ -24,7 +24,7 @@ class Rtypes
           result[:type] = :bigint
         end
 
-        if result[:type] == :boolean
+        if result[:type] == :boolean || result[:type] == :string
           result[:null] = column&.null
         end
 

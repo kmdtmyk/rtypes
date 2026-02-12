@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 2025_04_03_165515) do
 
   create_table "samples", force: :cascade do |t|
     t.string "string"
+    t.string "string_not_null", default: "", null: false
     t.text "text"
     t.integer "integer"
     t.bigint "bigint"

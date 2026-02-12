@@ -38,6 +38,7 @@ class CreateTables < ActiveRecord::Migration[6.0]
 
     create_table :samples do |t|
       t.string :string
+      t.string :string_not_null, null: false, default: ''
       t.text :text
       t.integer :integer
       t.bigint :bigint

@@ -84,6 +84,8 @@ class Rtypes
           else
             'Boolean? = null'
           end
+        elsif attribute[:type] == :string && attribute[:null] == false
+          'String = ""'
         else
           'String? = null'
         end
