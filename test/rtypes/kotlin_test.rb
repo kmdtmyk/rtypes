@@ -88,18 +88,21 @@ class Rtypes::KotlinTest < ActiveSupport::TestCase
 
   test 'file_content line space' do
     Rtypes.config.line_space = 1
-    assert_equal <<~EOS, Rtypes::Kotlin.new(OneAttribute::UserSerializer).file_content
-      data class User(
+    assert_equal <<~EOS, Rtypes::Kotlin.new(TwoAttributes::SampleSerializer).file_content
+      data class Sample(
 
-          val id: Long? = null
+          val string: String? = null,
+
+          val integer: Int? = null
 
       )
     EOS
 
     Rtypes.config.line_space = -9999
-    assert_equal <<~EOS, Rtypes::Kotlin.new(OneAttribute::UserSerializer).file_content
-      data class User(
-          val id: Long? = null
+    assert_equal <<~EOS, Rtypes::Kotlin.new(TwoAttributes::SampleSerializer).file_content
+      data class Sample(
+          val string: String? = null,
+          val integer: Int? = null
       )
     EOS
   end
