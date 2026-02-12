@@ -57,7 +57,7 @@ class Rtypes
         "data class #{@model.name}(",
         Rtypes::Kotlin.indent(properties.join(",\n")),
         ")\n",
-      ].join("\n")
+      ].join("\n" * [Rtypes.config.line_space.to_i + 1, 1].max)
 
       if Rtypes.config.kotlin_package_name.present?
         "package #{Rtypes.config.kotlin_package_name}\n\n#{result}"

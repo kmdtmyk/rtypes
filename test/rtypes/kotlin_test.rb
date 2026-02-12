@@ -86,6 +86,25 @@ class Rtypes::KotlinTest < ActiveSupport::TestCase
     EOS
   end
 
+  test 'file_content line space' do
+    Rtypes.config.line_space = 1
+    assert_equal <<~EOS, Rtypes::Kotlin.new(OneAttribute::UserSerializer).file_content
+      data class User(
+
+          val id: Long? = null
+
+      )
+    EOS
+
+    Rtypes.config.line_space = -9999
+    assert_equal <<~EOS, Rtypes::Kotlin.new(OneAttribute::UserSerializer).file_content
+      data class User(
+          val id: Long? = null
+      )
+    EOS
+  end
+
+
   test 'file_content non exist model' do
     rtypes = Rtypes::Kotlin.new(NonExistModelSerializer)
     assert_nil rtypes.file_content
