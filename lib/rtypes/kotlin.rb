@@ -74,20 +74,21 @@ class Rtypes
 
         type = if type_config&.dig(:class).present?
           "#{type_config[:class]}? = null"
-        elsif attribute[:type] == :integer
-          'Int? = null'
-        elsif attribute[:type] == :bigint
-          'Long? = null'
-        elsif attribute[:type] == :boolean
-          if attribute[:null] == false
-            'Boolean = false'
-          else
-            'Boolean? = null'
-          end
-        elsif attribute[:type] == :string && attribute[:null] == false
-          'String = ""'
         else
-          'String? = null'
+          case attribute
+          in { type: :integer }
+            'Int? = null'
+          in { type: :bigint }
+            'Long? = null'
+          in { type: :boolean, null: false }
+            'Boolean = false'
+          in { type: :boolean }
+            'Boolean? = null'
+          in { type: :string, null: false }
+            'String = ""'
+          else
+            'String? = null'
+          end
         end
 
         result = "val #{attribute[:name].camelize(:lower)}: #{type}"
