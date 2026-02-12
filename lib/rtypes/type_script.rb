@@ -111,11 +111,11 @@ class Rtypes
       end
 
       def comment(text)
-        <<~EOS.strip
-        /**
-         * #{text}
-         */
-        EOS
+        [
+          '/**',
+          *text.lines.map{ " * #{_1.strip}" },
+          ' */',
+        ].join("\n")
       end
 
       def indent(text)

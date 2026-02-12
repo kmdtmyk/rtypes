@@ -141,6 +141,14 @@ class Rtypes::KotlinTest < ActiveSupport::TestCase
     val text: String? = null
     EOS
 
+    assert_equal <<~EOS.strip, Rtypes::Kotlin.attribute_to_property(name: 'text', type: :text, comment: "1行目\n2行目")
+    /**
+     * 1行目
+     * 2行目
+     */
+    val text: String? = null
+    EOS
+
     Rtypes.config.kotlin_types = [
       {
         type: :decimal, class: 'BigDecimal', annotation: '@Serializable(with = BigDecimalSerializer::class)',
@@ -150,7 +158,6 @@ class Rtypes::KotlinTest < ActiveSupport::TestCase
     @Serializable(with = BigDecimalSerializer::class)
     val decimal: BigDecimal? = null
     EOS
-
   end
 
 end

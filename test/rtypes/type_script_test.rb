@@ -210,6 +210,14 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
      */
     text: string
     EOS
+
+    assert_equal <<~EOS.strip, Rtypes::TypeScript.attribute_to_property(name: 'text', type: :text, comment: "1行目\n2行目")
+    /**
+     * 1行目
+     * 2行目
+     */
+    text: string
+    EOS
   end
 
 end

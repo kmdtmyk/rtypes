@@ -105,11 +105,7 @@ class Rtypes
       end
 
       def comment(text)
-        <<~EOS.strip
-        /**
-         * #{text}
-         */
-        EOS
+        Rtypes::TypeScript.comment(text)
       end
 
       def indent(text)
