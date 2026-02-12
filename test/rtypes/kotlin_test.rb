@@ -21,8 +21,7 @@ class Rtypes::KotlinTest < ActiveSupport::TestCase
   end
 
   test 'file_content' do
-    rtypes = Rtypes::Kotlin.new(SampleSerializer)
-    assert_equal <<~EOS, rtypes.file_content
+    assert_equal <<~EOS, Rtypes::Kotlin.new(SampleSerializer).file_content
       data class Sample(
           val id: Long? = null,
           val string: String? = null,
@@ -39,8 +38,7 @@ class Rtypes::KotlinTest < ActiveSupport::TestCase
   end
 
   test 'file_content with comment' do
-    rtypes = Rtypes::Kotlin.new(CommentAttribute::PostSerializer)
-    assert_equal <<~EOS, rtypes.file_content
+    assert_equal <<~EOS, Rtypes::Kotlin.new(CommentAttribute::PostSerializer).file_content
       data class Post(
           /**
            * タイトル

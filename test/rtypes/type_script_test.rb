@@ -21,8 +21,7 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
   end
 
   test 'file_content' do
-    rtypes = Rtypes::TypeScript.new(SampleSerializer)
-    assert_equal <<~EOS, rtypes.file_content
+    assert_equal <<~EOS, Rtypes::TypeScript.new(SampleSerializer).file_content
       type Sample = {
         id: number
         string: string
@@ -41,8 +40,7 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
   end
 
   test 'file_content with comment' do
-    rtypes = Rtypes::TypeScript.new(CommentAttribute::PostSerializer)
-    assert_equal <<~EOS, rtypes.file_content
+    assert_equal <<~EOS, Rtypes::TypeScript.new(CommentAttribute::PostSerializer).file_content
       type Post = {
         /**
          * タイトル
@@ -55,8 +53,7 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
   end
 
   test 'file_content has_many' do
-    rtypes = Rtypes::TypeScript.new(HasMany::UserSerializer)
-    assert_equal <<~EOS, rtypes.file_content
+    assert_equal <<~EOS, Rtypes::TypeScript.new(HasMany::UserSerializer).file_content
       import Post from '../Post'
 
       type User = {
@@ -68,8 +65,7 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
   end
 
   test 'file_content has_many (any)' do
-    rtypes = Rtypes::TypeScript.new(HasMany::PostSerializer)
-    assert_equal <<~EOS, rtypes.file_content
+    assert_equal <<~EOS, Rtypes::TypeScript.new(HasMany::PostSerializer).file_content
       type Post = {
         comments?: Array<any>
       }
@@ -79,8 +75,7 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
   end
 
   test 'file_content has_one' do
-    rtypes = Rtypes::TypeScript.new(HasOne::UserSerializer)
-    assert_equal <<~EOS, rtypes.file_content
+    assert_equal <<~EOS, Rtypes::TypeScript.new(HasOne::UserSerializer).file_content
       import Post from '../Post'
 
       type User = {
@@ -92,8 +87,7 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
   end
 
   test 'file_content belongs_to' do
-    rtypes = Rtypes::TypeScript.new(BelongsTo::PostSerializer)
-    assert_equal <<~EOS, rtypes.file_content
+    assert_equal <<~EOS, Rtypes::TypeScript.new(BelongsTo::PostSerializer).file_content
       import User from '../User'
 
       type Post = {
@@ -106,8 +100,7 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
   end
 
   test 'file_content with namespace' do
-    rtypes = Rtypes::TypeScript.new(Namespace1::PostSerializer)
-    assert_equal <<~EOS, rtypes.file_content
+    assert_equal <<~EOS, Rtypes::TypeScript.new(Namespace1::PostSerializer).file_content
       import User from '../User'
 
       type Post = {
@@ -124,8 +117,7 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
   end
 
   test 'file_content with namespace2' do
-    rtypes = Rtypes::TypeScript.new(Namespace2::PostSerializer)
-    assert_equal <<~EOS, rtypes.file_content
+    assert_equal <<~EOS, Rtypes::TypeScript.new(Namespace2::PostSerializer).file_content
       import User1 from './User'
       import User2 from '../User'
 
@@ -144,8 +136,7 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
   end
 
   test 'file_content custom attribute' do
-    rtypes = Rtypes::TypeScript.new(CustomAttribute::UserSerializer)
-    assert_equal <<~EOS, rtypes.file_content
+    assert_equal <<~EOS, Rtypes::TypeScript.new(CustomAttribute::UserSerializer).file_content
       type User = {
         any: any
       }
@@ -155,8 +146,7 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
   end
 
   test 'file_content empty' do
-    rtypes = Rtypes::TypeScript.new(Empty::BookSerializer)
-    assert_equal <<~EOS, rtypes.file_content
+    assert_equal <<~EOS, Rtypes::TypeScript.new(Empty::BookSerializer).file_content
       type Book = {
 
       }
