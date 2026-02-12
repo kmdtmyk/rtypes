@@ -11,7 +11,7 @@ Rtypes.config.enable_kotlin = false
 Rtypes.config.kotlin_package_name = 'your.pacakge.name'
 Rtypes.config.kotlin_root_directory = Rails.root.join('app/serializers')
 Rtypes.config.kotlin_types = [
-  # { type: :decimal, class: 'BigDecimal', annotation: '@Serializable(with = BigDecimalSerializer::class)' },
+  # { type: :decimal, class: 'java.math.BigDecimal', annotation: '@Serializable(with = BigDecimalSerializer::class)' },
 ]
 
 if Rails.env.development?
