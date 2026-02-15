@@ -74,6 +74,12 @@ class Rtypes
       end
     end
 
+    def parent_serializer
+      Rtypes.all_serializers.find do |serializer|
+        serializer.to_s == @serializer.to_s.deconstantize
+      end
+    end
+
   end
 
 end
