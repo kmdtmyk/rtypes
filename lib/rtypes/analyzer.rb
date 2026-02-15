@@ -68,6 +68,12 @@ class Rtypes
       end.compact
     end
 
+    def nested_serializers
+      Rtypes.all_serializers.filter do |serializer|
+        serializer.to_s.start_with?("#{@serializer.to_s}::")
+      end
+    end
+
   end
 
 end

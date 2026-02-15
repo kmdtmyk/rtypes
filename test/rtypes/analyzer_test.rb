@@ -51,4 +51,8 @@ class Rtypes::AnalyzerTest < ActiveSupport::TestCase
     assert_nil Rtypes::Analyzer.new(NonExistModelSerializer).associations
   end
 
+  test 'nested_serializers' do
+    Rtypes::Analyzer.new(Nest::UserSerializer).nested_serializers
+  end
+
 end
