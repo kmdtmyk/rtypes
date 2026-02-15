@@ -51,5 +51,16 @@ class CreateTables < ActiveRecord::Migration[6.0]
       t.timestamps
     end
 
+    create_table :parents do |t|
+      t.string :parent
+      t.timestamps
+    end
+
+    create_table :children do |t|
+      t.references :parent
+      t.string :child
+      t.timestamps
+    end
+
   end
 end
