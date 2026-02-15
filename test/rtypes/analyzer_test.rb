@@ -46,6 +46,10 @@ class Rtypes::AnalyzerTest < ActiveSupport::TestCase
       { type: :has_one, name: 'latest_post', class_name: 'Post', serializer: PostSerializer },
     ], Rtypes::Analyzer.new(HasOne::UserSerializer).associations
 
+    assert_equal [
+      { type: :has_many, name: 'children', class_name: 'Child', serializer: Nest::ParentSerializer::ChildSerializer },
+    ], Rtypes::Analyzer.new(Nest::ParentSerializer).associations
+
     assert_equal [], Rtypes::Analyzer.new(NonExistsAssociation::UserSerializer).associations
 
     assert_nil Rtypes::Analyzer.new(NonExistModelSerializer).associations

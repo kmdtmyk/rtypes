@@ -57,7 +57,8 @@ class Rtypes
         end
 
         class_name = model_reflection.class_name
-        serializer = reflection.dig(:options, :serializer) || "#{class_name}Serializer".safe_constantize
+
+        serializer = reflection.dig(:options, :serializer) || "#{@serializer}::#{class_name}Serializer".safe_constantize || "#{class_name}Serializer".safe_constantize
 
         {
           type: type,

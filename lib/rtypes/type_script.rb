@@ -139,7 +139,7 @@ class Rtypes
         model = Rtypes.serializer_to_model(serializer)
         if own_depth == import_depth
           "./#{model.name}"
-        else
+        elsif import_depth < own_depth
           "#{'../' * (own_depth - import_depth)}#{model.name}"
         end
       end
