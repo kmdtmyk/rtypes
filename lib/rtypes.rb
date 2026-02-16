@@ -90,8 +90,11 @@ class Rtypes
     end
 
     def all_serializers
-      Dir.glob(Rails.root.join('app/serializers/**/*.rb')).each{ |f| load f }
-      ActiveModel::Serializer.descendants - [ActiveModel::Serializer::ErrorSerializer]
+      if ActiveModel::Serializer.descendants.size == 1
+        Dir.glob(Rails.root.join('app/serializers/**/*.rb')).each{ |f| load f }
+      end
+      serializers = (ActiveModel::Serializer.descendants - [ActiveModel::Serializer::ErrorSerializer])
+      serializers.group_by(&:to_s).map{ _2.max_by(&:object_id) }
     end
 
     def serializer_to_model(serializer)
