@@ -29,7 +29,7 @@ class Rtypes
     end
 
     def generate
-      if invalid?
+      if invalid? || !generate_target?
         return
       end
       Rtypes.create_file(file_path, file_content)
@@ -157,6 +157,10 @@ class Rtypes
     end
 
     private
+
+      def generate_target?
+        @serializer.to_s.deconstantize.end_with?('Serializer') == false
+      end
 
       def serializer_depth(serializer)
         serializer.to_s.split('::').size
