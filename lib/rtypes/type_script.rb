@@ -91,7 +91,7 @@ class Rtypes
 
       [
         "type #{@model.name} = {",
-        *properties.map{ Rtypes::TypeScript.indent(_1) },
+        *properties.map{ _1.indent(2) },
         "}",
       ].join(Rtypes.line_break)
     end
@@ -126,10 +126,6 @@ class Rtypes
           *text.lines.map{ " * #{_1.strip}" },
           ' */',
         ].join("\n")
-      end
-
-      def indent(text)
-        text.each_line.map{ "  #{_1}" }.join
       end
 
     end

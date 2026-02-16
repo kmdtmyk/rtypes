@@ -55,7 +55,7 @@ class Rtypes
 
       result = [
         "data class #{@model.name}(",
-        properties.map{ Rtypes::Kotlin.indent(_1) }.join(",#{Rtypes.line_break}"),
+        properties.map{ _1.indent(4) }.join(",#{Rtypes.line_break}"),
         ")\n",
       ].join(Rtypes.line_break)
 
@@ -106,10 +106,6 @@ class Rtypes
 
       def comment(text)
         Rtypes::TypeScript.comment(text)
-      end
-
-      def indent(text)
-        text.each_line.map{ "    #{_1}" }.join
       end
 
     end
