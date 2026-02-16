@@ -42,6 +42,14 @@ ActiveRecord::Schema.define(version: 2025_04_03_165515) do
     t.index ["post_id"], name: "index_comments_on_post_id"
   end
 
+  create_table "grandchildren", force: :cascade do |t|
+    t.bigint "child_id"
+    t.string "grandchild"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["child_id"], name: "index_grandchildren_on_child_id"
+  end
+
   create_table "parents", force: :cascade do |t|
     t.string "parent"
     t.datetime "created_at", precision: 6, null: false
