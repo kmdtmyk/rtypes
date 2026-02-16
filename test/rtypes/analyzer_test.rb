@@ -47,8 +47,8 @@ class Rtypes::AnalyzerTest < ActiveSupport::TestCase
     ], Rtypes::Analyzer.new(HasOne::UserSerializer).associations
 
     assert_equal [
-      { type: :has_many, name: 'children', class_name: 'Child', serializer: Nest::ParentSerializer::ChildSerializer },
-    ], Rtypes::Analyzer.new(Nest::ParentSerializer).associations
+      { type: :has_many, name: 'children', class_name: 'Child', serializer: Nest::HasMany::ParentSerializer::ChildSerializer },
+    ], Rtypes::Analyzer.new(Nest::HasMany::ParentSerializer).associations
 
     assert_equal [], Rtypes::Analyzer.new(NonExistsAssociation::UserSerializer).associations
 
@@ -56,13 +56,13 @@ class Rtypes::AnalyzerTest < ActiveSupport::TestCase
   end
 
   test 'nested_serializers' do
-    assert_equal [Nest::ParentSerializer::ChildSerializer, Nest::ParentSerializer::ChildSerializer::GrandchildSerializer], Rtypes::Analyzer.new(Nest::ParentSerializer).nested_serializers
+    assert_equal [Nest::HasMany::ParentSerializer::ChildSerializer, Nest::HasMany::ParentSerializer::ChildSerializer::GrandchildSerializer], Rtypes::Analyzer.new(Nest::HasMany::ParentSerializer).nested_serializers
     assert_equal [], Rtypes::Analyzer.new(UserSerializer).nested_serializers
     assert_equal [], Rtypes::Analyzer.new(nil).nested_serializers
   end
 
   test 'parent_serializer' do
-    assert_equal Nest::ParentSerializer, Rtypes::Analyzer.new(Nest::ParentSerializer::ChildSerializer).parent_serializer
+    assert_equal Nest::HasMany::ParentSerializer, Rtypes::Analyzer.new(Nest::HasMany::ParentSerializer::ChildSerializer).parent_serializer
     assert_nil Rtypes::Analyzer.new(UserSerializer).parent_serializer
     assert_nil Rtypes::Analyzer.new(nil).parent_serializer
   end

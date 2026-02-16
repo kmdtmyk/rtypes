@@ -16,7 +16,7 @@ class Rtypes
             if 1 < serializers.size
               associations.each{ _1[:import_name] = "#{_1[:class_name]}#{serializers.index(_1[:serializer]) + 1}" }
             else
-              associations.each{ _1[:import_name] = _1[:class_name] }
+              associations.each{ _1[:import_name] = serializer_to_type_name(serializers[0]) }
             end
           end
 
@@ -91,7 +91,7 @@ class Rtypes
       end
 
       result = [
-        "type #{@model.name} = {",
+        "type #{serializer_to_type_name(@serializer)} = {",
         *properties.map{ _1.indent(2) },
         "}",
       ].join(Rtypes.line_break)
@@ -108,17 +108,17 @@ class Rtypes
     def export_content
       result = "export default #{@model.name}"
 
-      model_names = Rtypes::Analyzer.new(@serializer).nested_serializers.map do |serializer|
-        Rtypes.serializer_to_model(serializer).name
+      type_names = Rtypes::Analyzer.new(@serializer).nested_serializers.map do |serializer|
+        serializer_to_type_name(serializer)
       end
 
-      if model_names.present?
+      if type_names.present?
 
         result = <<~EOS.strip
         #{result}
 
         export {
-        #{model_names.map{ _1.indent(2) }.join(",\n")},
+        #{type_names.map{ _1.indent(2) }.join(",\n")},
         }
         EOS
       end
@@ -157,6 +157,18 @@ class Rtypes
     end
 
     private
+
+      def serializer_to_type_name(serializer)
+        last_name = serializer.to_s.split('::').last
+        if 1 < serializer.to_s.scan(last_name).size
+          serializer.to_s.split('::')
+            .filter{ _1.end_with?('Serializer') }
+            .map{ _1.delete_suffix('Serializer') }
+            .join
+        else
+          last_name.delete_suffix('Serializer')
+        end
+      end
 
       def generate_target?
         @serializer.to_s.deconstantize.end_with?('Serializer') == false

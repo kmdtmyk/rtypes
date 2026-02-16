@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Nest::ParentSerializer < ActiveModel::Serializer
+class Nest::HasMany::ParentSerializer < ActiveModel::Serializer
 
   attributes(
     :id,

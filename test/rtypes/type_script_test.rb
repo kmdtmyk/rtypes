@@ -100,8 +100,8 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
     EOS
   end
 
-  test 'file_content nest' do
-    assert_equal <<~EOS, Rtypes::TypeScript.new(Nest::ParentSerializer).file_content
+  test 'file_content nest has_many' do
+    assert_equal <<~EOS, Rtypes::TypeScript.new(Nest::HasMany::ParentSerializer).file_content
       type Parent = {
         id: number
         children?: Array<Child>
@@ -121,6 +121,31 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
       export {
         Child,
         Grandchild,
+      }
+    EOS
+  end
+
+  test 'file_content nest belongs_to' do
+    assert_equal <<~EOS, Rtypes::TypeScript.new(Nest::BelongsTo::ChildSerializer).file_content
+      type Child = {
+        id: number
+        parent?: Parent
+      }
+
+      type Parent = {
+        id: number
+        children?: Array<ChildParentChild>
+      }
+
+      type ChildParentChild = {
+        createdAt: string
+      }
+
+      export default Child
+
+      export {
+        Parent,
+        ChildParentChild,
       }
     EOS
   end
