@@ -56,7 +56,7 @@ class Rtypes::AnalyzerTest < ActiveSupport::TestCase
   end
 
   test 'nested_serializers' do
-    assert_equal [Nest::ParentSerializer::ChildSerializer], Rtypes::Analyzer.new(Nest::ParentSerializer).nested_serializers
+    assert_equal [Nest::ParentSerializer::ChildSerializer, Nest::ParentSerializer::ChildSerializer::GrandchildSerializer], Rtypes::Analyzer.new(Nest::ParentSerializer).nested_serializers
     assert_equal [], Rtypes::Analyzer.new(UserSerializer).nested_serializers
     assert_equal [], Rtypes::Analyzer.new(nil).nested_serializers
   end

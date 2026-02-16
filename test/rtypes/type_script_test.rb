@@ -109,12 +109,18 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
 
       type Child = {
         id: number
+        grandchildren?: Array<Grandchild>
+      }
+
+      type Grandchild = {
+        id: number
       }
 
       export default Parent
 
       export {
         Child,
+        Grandchild,
       }
     EOS
   end

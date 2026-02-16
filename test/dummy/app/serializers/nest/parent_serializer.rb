@@ -14,6 +14,16 @@ class Nest::ParentSerializer < ActiveModel::Serializer
       :id
     )
 
+    has_many :grandchildren
+
+    class GrandchildSerializer < ActiveModel::Serializer
+
+      attributes(
+        :id
+      )
+
+    end
+
   end
 
 end

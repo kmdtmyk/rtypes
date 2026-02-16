@@ -70,9 +70,9 @@ class Rtypes
     end
 
     def nested_serializers
-      Rtypes.all_serializers.filter do |serializer|
-        serializer.to_s.start_with?("#{@serializer.to_s}::")
-      end
+      Rtypes.all_serializers
+        .filter{ _1.to_s.start_with?("#{@serializer.to_s}::") }
+        .sort{ _1.to_s.count(':') }
     end
 
     def parent_serializer

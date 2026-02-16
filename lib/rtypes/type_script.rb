@@ -97,7 +97,9 @@ class Rtypes
       ].join(Rtypes.line_break)
 
       analyzer.nested_serializers.each do |serializer|
-        result = "#{result}\n\n#{Rtypes::TypeScript.new(serializer).type_content}"
+        if serializer.to_s.deconstantize == @serializer.to_s
+          result = "#{result}\n\n#{Rtypes::TypeScript.new(serializer).type_content}"
+        end
       end
 
       result
