@@ -150,6 +150,45 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
     EOS
   end
 
+  test 'file_content nest belongs_to any' do
+    assert_equal <<~EOS, Rtypes::TypeScript.new(Nest::BelongsToAny::ChildSerializer).file_content
+      type Child = {
+        id: number
+        parent?: Parent
+      }
+
+      type Parent = {
+        id: number
+        children?: Array<any>
+      }
+
+      export default Child
+
+      export {
+        Parent,
+      }
+    EOS
+  end
+
+  test 'file_content nest belongs_to self' do
+    assert_equal <<~EOS, Rtypes::TypeScript.new(Nest::BelongsToSelf::ChildSerializer).file_content
+      type Child = {
+        id: number
+        parent?: Parent
+      }
+
+      type Parent = {
+        id: number
+        children?: Array<Child>
+      }
+
+      export default Child
+
+      export {
+        Parent,
+      }
+    EOS
+  end
 
   test 'file_content with namespace' do
     assert_equal <<~EOS, Rtypes::TypeScript.new(Namespace1::PostSerializer).file_content
