@@ -4,6 +4,28 @@ class Rtypes
     def initialize(serializer)
       @serializer = serializer
       @model = Rtypes.serializer_to_model(serializer)
+
+      @associations = Rtypes::Analyzer.new(@serializer).associations
+
+      if @associations.present?
+
+        @associations
+          .filter{ _1[:serializer].present? }
+          .group_by{ _1[:class_name] }.each do |class_name, associations|
+            serializers = associations.map{ _1[:serializer] }.uniq
+            if 1 < serializers.size
+              associations.each{ _1[:import_name] = "#{_1[:class_name]}#{serializers.index(_1[:serializer]) + 1}" }
+            else
+              associations.each{ _1[:import_name] = _1[:class_name] }
+            end
+          end
+
+        @associations.each do |association|
+          association[:module_name] = module_name(association[:serializer])
+        end
+
+      end
+
     end
 
     def generate
@@ -33,30 +55,27 @@ class Rtypes
         return
       end
 
-      analyzer = Rtypes::Analyzer.new(@serializer)
+      [
+        import_content,
+        type_content,
+        export_content,
+      ].compact_blank.join("\n\n") + "\n"
+    end
 
-      properties = analyzer.attributes.map do |attribute|
+    def import_content
+      @associations
+        .filter{ _1[:module_name].present? }
+        .map{ "import #{_1[:import_name]} from '#{_1[:module_name]}'"}
+        .uniq
+        .join("\n")
+    end
+
+    def type_content
+      properties = Rtypes::Analyzer.new(@serializer).attributes.map do |attribute|
         Rtypes::TypeScript.attribute_to_property(attribute)
       end
 
-      associations = analyzer.associations
-
-      associations
-        .filter{ _1[:serializer].present? }
-        .group_by{ _1[:class_name] }.each do |class_name, associations|
-          serializers = associations.map{ _1[:serializer] }.uniq
-          if 1 < serializers.size
-            associations.each{ _1[:import_name] = "#{_1[:class_name]}#{serializers.index(_1[:serializer]) + 1}" }
-          else
-            associations.each{ _1[:import_name] = _1[:class_name] }
-          end
-        end
-
-      associations.each do |association|
-        association[:module_name] = module_name(association[:serializer])
-      end
-
-      associations.each do |association|
+      @associations.each do |association|
         type = if association[:serializer].present?
           association[:import_name]
         else
@@ -70,24 +89,15 @@ class Rtypes
         end
       end
 
-      contents = [
+      [
         "type #{@model.name} = {",
         *properties.map{ Rtypes::TypeScript.indent(_1) },
         "}",
-      ]
+      ].join(Rtypes.line_break)
+    end
 
-      imports = associations
-        .filter{ _1[:module_name].present? }
-        .map{ "import #{_1[:import_name]} from '#{_1[:module_name]}'"}
-        .uniq
-
-      result = contents.join(Rtypes.line_break) + "\n\nexport default #{@model.name}\n"
-
-      if imports.present?
-        "#{imports.join("\n")}\n\n#{result}"
-      else
-        result
-      end
+    def export_content
+      "export default #{@model.name}"
     end
 
     class << self
