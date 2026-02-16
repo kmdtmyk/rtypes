@@ -71,7 +71,8 @@ class Rtypes
     end
 
     def type_content
-      properties = Rtypes::Analyzer.new(@serializer).attributes.map do |attribute|
+      analyzer = Rtypes::Analyzer.new(@serializer)
+      properties = analyzer.attributes.map do |attribute|
         Rtypes::TypeScript.attribute_to_property(attribute)
       end
 
@@ -89,15 +90,38 @@ class Rtypes
         end
       end
 
-      [
+      result = [
         "type #{@model.name} = {",
         *properties.map{ _1.indent(2) },
         "}",
       ].join(Rtypes.line_break)
+
+      analyzer.nested_serializers.each do |serializer|
+        result = "#{result}\n\n#{Rtypes::TypeScript.new(serializer).type_content}"
+      end
+
+      result
     end
 
     def export_content
-      "export default #{@model.name}"
+      result = "export default #{@model.name}"
+
+      model_names = Rtypes::Analyzer.new(@serializer).nested_serializers.map do |serializer|
+        Rtypes.serializer_to_model(serializer).name
+      end
+
+      if model_names.present?
+
+        result = <<~EOS.strip
+        #{result}
+
+        export {
+        #{model_names.map{ _1.indent(2) }.join(",\n")},
+        }
+        EOS
+      end
+
+      result
     end
 
     class << self

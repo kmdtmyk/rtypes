@@ -100,6 +100,26 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
     EOS
   end
 
+  test 'file_content nest' do
+    assert_equal <<~EOS, Rtypes::TypeScript.new(Nest::ParentSerializer).file_content
+      type Parent = {
+        id: number
+        children?: Array<Child>
+      }
+
+      type Child = {
+        id: number
+      }
+
+      export default Parent
+
+      export {
+        Child,
+      }
+    EOS
+  end
+
+
   test 'file_content with namespace' do
     assert_equal <<~EOS, Rtypes::TypeScript.new(Namespace1::PostSerializer).file_content
       import User from '../User'
