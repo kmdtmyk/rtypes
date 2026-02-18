@@ -125,6 +125,29 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
     EOS
   end
 
+  test 'file_content nest has_many2' do
+    skip 'TODO'
+    assert_equal <<~EOS, Rtypes::TypeScript.new(Nest::HasMany2::ParentSerializer).file_content
+      import SomeCategory from './SomeCategory'
+
+      type Parent = {
+        id: number
+        children?: Array<Child>
+      }
+
+      type Child = {
+        id: number
+        someCategory?: SomeCategory
+      }
+
+      export default Parent
+
+      export {
+        Child,
+      }
+    EOS
+  end
+
   test 'file_content nest belongs_to' do
     assert_equal <<~EOS, Rtypes::TypeScript.new(Nest::BelongsTo::ChildSerializer).file_content
       type Child = {
