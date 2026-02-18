@@ -26,10 +26,12 @@ ActiveRecord::Schema.define(version: 2025_04_03_165515) do
 
   create_table "children", force: :cascade do |t|
     t.bigint "parent_id"
+    t.bigint "some_category_id"
     t.string "child"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["parent_id"], name: "index_children_on_parent_id"
+    t.index ["some_category_id"], name: "index_children_on_some_category_id"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -79,6 +81,12 @@ ActiveRecord::Schema.define(version: 2025_04_03_165515) do
     t.datetime "datetime"
     t.boolean "boolean", default: false, null: false
     t.boolean "boolean_without_not_null"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "some_categories", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
