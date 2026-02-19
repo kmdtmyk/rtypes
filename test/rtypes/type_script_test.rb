@@ -252,6 +252,7 @@ class Rtypes::TypeScriptTest < ActiveSupport::TestCase
   test 'file_content custom attribute' do
     assert_equal <<~EOS, Rtypes::TypeScript.new(CustomAttribute::UserSerializer).file_content
       type User = {
+        integer: number
         any: any
       }
 

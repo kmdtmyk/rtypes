@@ -28,8 +28,14 @@ class Rtypes
           result[:null] = column&.null
         end
 
-        if attribute.options.present?
-          result[:options] = attribute.options
+        options = attribute.options.dup
+
+        if attribute.block.present?
+          result[:type] = options.delete(:type)
+        end
+
+        if options.present?
+          result[:options] = options
         end
         result
       end

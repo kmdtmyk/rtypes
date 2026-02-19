@@ -21,9 +21,9 @@ class Rtypes::AnalyzerTest < ActiveSupport::TestCase
     assert_equal({ name: 'name', type: :string, null: true, comment: '氏名' }, attributes[1])
     assert_equal({ name: 'admin',type: :boolean, null: false, comment: '管理者' }, attributes[2])
 
-    assert_equal [
-      { name: 'any', type: nil, comment: nil, options: { typescript: 'any' } },
-    ], Rtypes::Analyzer.new(CustomAttribute::UserSerializer).attributes
+    attributes = Rtypes::Analyzer.new(CustomAttribute::UserSerializer).attributes
+    assert_equal({ name: 'integer', type: :integer, comment: nil }, attributes[0])
+    assert_equal({ name: 'any', type: nil, comment: nil, options: { typescript: 'any' } }, attributes[1])
 
     assert_nil Rtypes::Analyzer.new(NonExistModelSerializer).attributes
   end
